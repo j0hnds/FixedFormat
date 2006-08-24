@@ -38,4 +38,49 @@ public class TextUtils
         return blank;
     }
     
+    public static String leftPadString(String originalValue, int length, char padCharacter)
+    {
+        String encodedValue = null;
+        
+        if (originalValue == null)
+        {
+            // We will assume that null indicates an empty value
+            StringBuffer sb = new StringBuffer();
+            for (int i=0; i<length; i++)
+            {
+                sb.append(padCharacter);
+            }
+            
+            encodedValue = sb.toString();
+        }
+        else 
+        {
+            int len = originalValue.length();
+            if (len > length)
+            {
+                encodedValue = originalValue.substring(len - length, len);
+            }
+            else
+            {
+                int numPads = length - len;
+                StringBuffer sb = new StringBuffer();
+                for (int i=0; i<numPads; i++)
+                {
+                    sb.append(padCharacter);
+                }
+                sb.append(originalValue);
+                
+                encodedValue = sb.toString();
+            }
+        }
+        
+        return encodedValue;
+        
+    }
+    
+    public static String leftPadString(String originalValue, int length)
+    {
+        return leftPadString(originalValue, length, ' ');
+    }
+    
 }
