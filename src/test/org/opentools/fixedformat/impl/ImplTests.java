@@ -12,7 +12,9 @@ public class ImplTests
                 "Test for org.opentools.fixedformat.impl");
         //$JUnit-BEGIN$
         suite.addTestSuite(TestRecordBase.class);
+        suite.addTestSuite(TestLongCodec.class);
         suite.addTestSuite(TestStringCodec.class);
+        suite.addTestSuite(TestUSCurrencyCodec.class);
         suite.addTestSuite(TestBeanPopulator.class);
         suite.addTestSuite(TestFieldBase.class);
         suite.addTestSuite(TestMapPopulator.class);
