@@ -1,5 +1,6 @@
 package org.opentools.fixedformat;
 
+import java.util.List;
 import java.util.Map;
 
 public interface Record
@@ -34,4 +35,16 @@ public interface Record
      * @return formatted fixed-field record.
      */
     String formatRecord(Object record);
+    
+    void setFieldDefinitions(List fieldList);
+    
+    List getFieldDefinitions();
+    
+    void setMapPopulator(ObjectPopulator populator);
+    
+    ObjectPopulator getMapPopulator();
+    
+    void setBeanPopulator(ObjectPopulator populator);
+    
+    ObjectPopulator getBeanPopulator();
 }

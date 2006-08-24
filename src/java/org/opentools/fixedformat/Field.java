@@ -70,17 +70,19 @@ public interface Field
      * Extracts the raw data value from the record.
      * 
      * @param record the record from which to extract the value.
+     * @param position the starting position for the field
      * @return the raw value of the record.
      */
-    String extractRawValue(String record);
+    String extractRawValue(String record, int position);
     
     /**
      * Extracts the typed value from the record.
      * 
      * @param record the record to extract the value from
+     * @param position the starting position for the field
      * @return the value of the record.
      */
-    Object extractTypedValue(String record);
+    Object extractTypedValue(String record, int position);
     
     /**
      * Formats the value for use in the fixed-length
