@@ -1,31 +1,30 @@
 package org.opentools.fixedformat.impl;
 
-import org.opentools.fixedformat.ValueCodec;
-import org.opentools.textutils.NumberUtils;
-
-public class LongCodec implements ValueCodec
+public final class LongCodec extends ValueCodecBase
 {
-
-    public String encodeValue(Object value, int length)
-    {
-        if (value == null)
-        {
-            throw new IllegalArgumentException("Input value must be non-null");
-        }
-        
-        if (! ((value instanceof Long)
-                || (value instanceof Integer)
-                || (value instanceof Short)))
-        {
-            throw new IllegalArgumentException("Input Value must be Long");
-        }
-        
-        return NumberUtils.zeroPadLong(((Number) value).longValue(), length);
-    }
-
-    public Object decodeValue(String value)
+    protected Object stringToObject(String value)
     {
         return new Long(value);
+    }
+
+    protected String objectToString(Object value)
+    {
+        String stringValue = null;
+        
+        if (value instanceof String)
+        {
+            stringValue = new Long((String) value).toString();
+        }
+        else if (value instanceof Number)
+        {
+            stringValue = Long.toString(((Number) value).longValue());
+        }
+        else
+        {
+            throw new IllegalArgumentException("Value must be a Number or convertable to number");
+        }
+
+        return stringValue;
     }
 
 }

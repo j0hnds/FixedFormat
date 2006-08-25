@@ -14,7 +14,7 @@ public class NumberUtils
             throw new IllegalArgumentException("Long value is too long to pad");
         }
                 
-        return TextUtils.leftPadString(numValue, length, '0');
+        return TextUtils.rightJustifyText(numValue, length, '0');
     }
     
     public static String zeroPadLong(long longValue, int length)
@@ -26,6 +26,6 @@ public class NumberUtils
             throw new IllegalArgumentException("Long value is too long to pad");
         }
                 
-        return TextUtils.leftPadString(originalValue, length, '0');
+        return TextUtils.rightJustifyText(originalValue, length, '0');
     }
 }

@@ -18,19 +18,45 @@ public class TestStringCodec extends TestCase
         super.tearDown();
     }
     
-    public void testEncodeValueNull()
+    public void testEncodeValueNullPaddable()
     {
+        codec.setPaddable(true);
         assertEquals("    ", codec.encodeValue(null, 4));
     }
     
-    public void testEncodeValueEmptyString()
+    public void testEncodeValueNullNotPaddable()
     {
+        try
+        {
+            assertEquals("    ", codec.encodeValue(null, 4));
+            fail("Should have thrown exception");
+        }
+        catch (IllegalArgumentException e)
+        {
+            
+        }
+    }
+    
+    public void testEncodeValueEmptyStringPaddable()
+    {
+        codec.setPaddable(true);
         assertEquals("    ", codec.encodeValue("", 4));
     }
     
-    public void testEncodeValueShortString()
+    public void testEncodeValueEmptyStringNotPaddable()
     {
-        assertEquals("  23", codec.encodeValue(new Long(23L), 4));
+        assertEquals("", codec.encodeValue("", 4));
+    }
+    
+    public void testEncodeValueShortStringNotPadded()
+    {
+        assertEquals("23", codec.encodeValue(new Long(23L), 4));
+    }
+    
+    public void testEncodeValueShortStringPadded()
+    {
+        codec.setPaddable(true);
+        assertEquals("23  ", codec.encodeValue(new Long(23L), 4));
     }
     
     public void testEncodeValueEqualString()
@@ -38,9 +64,22 @@ public class TestStringCodec extends TestCase
         assertEquals("abcd", codec.encodeValue("abcd", 4));
     }
     
-    public void testEncodeValueLongString()
+    public void testEncodeValueLongStringTrucated()
     {
-        assertEquals("bcde", codec.encodeValue("abcde", 4));
+        codec.setTruncatable(true);
+        assertEquals("abcd", codec.encodeValue("abcde", 4));
+    }
+    
+    public void testEncodeValueLongStringNotTrucated()
+    {
+        try
+        {
+            codec.encodeValue("abcde", 4);
+            fail("Should have thrown exception");
+        }
+        catch (IllegalArgumentException e)
+        {
+        }
     }
     
     public void testDecodeValueNullString()
@@ -61,24 +100,63 @@ public class TestStringCodec extends TestCase
         assertEquals("", codec.decodeValue(""));
     }
     
-    public void testDecodeValueAllSpacesString()
+    public void testDecodeValueAllSpacesStringNotPaddable()
     {
+        assertEquals("    ", codec.decodeValue("    "));
+    }
+    
+    public void testDecodeValueAllSpacesStringPaddable()
+    {
+        codec.setPaddable(true);
         assertEquals("", codec.decodeValue("    "));
     }
     
-    public void testDecodeValueLeftPadded()
+    public void testDecodeValueLeftPaddedNoPadding()
     {
-        assertEquals("TestString", codec.decodeValue("  TestString"));
+        assertEquals("  TestString", codec.decodeValue("  TestString"));
+    }
+    
+    public void testDecodeValueLeftPaddedPadding()
+    {
+        codec.setPaddable(true);
+        assertEquals("TestString", codec.decodeValue("TestString  "));
     }
     
     public void testDecodeValueRightPadded()
     {
-        assertEquals("TestString", codec.decodeValue("TestString  "));
+        codec.setPaddable(true);
+        codec.setJustification(ValueCodec.RIGHT_JUSTIFIED);
+        assertEquals("TestString", codec.decodeValue("  TestString"));
     }
     
     public void testDecodeValueRightLeftPadded()
     {
+        codec.setPaddable(true);
+        codec.setJustification(ValueCodec.CENTER_JUSTIFIED);
         assertEquals("TestString", codec.decodeValue("  TestString  "));
+    }
+    
+    public void testEncodeValueCenterPadding()
+    {
+        codec.setPaddable(true);
+        codec.setJustification(ValueCodec.CENTER_JUSTIFIED);
+        codec.setPadCharacter('*');
+        
+        assertEquals("TestString", codec.encodeValue("TestString", 10));
+        assertEquals("TestString*", codec.encodeValue("TestString", 11));
+        assertEquals("*TestString*", codec.encodeValue("TestString", 12));
+    }
+    
+    public void testDecodeValueCenterPaddingWStrangePad()
+    {
+        codec.setPaddable(true);
+        codec.setJustification(ValueCodec.CENTER_JUSTIFIED);
+        codec.setPadCharacter('*');
+        
+        assertEquals("TestString", codec.decodeValue("TestString"));
+        assertEquals("TestString", codec.decodeValue("TestString*"));
+        assertEquals("TestString", codec.decodeValue("*TestString*"));
+        
     }
 
 }

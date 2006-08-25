@@ -35,30 +35,29 @@ public class TestTextUtils extends TestCase
         assertFalse(TextUtils.isBlank("  TestString  "));
     }
     
-    public void testLeftPadStringNullString()
+    public void testRightJustifyTextNullString()
     {
-        assertEquals("    ", TextUtils.leftPadString(null, 4, ' '));
-        assertEquals("    ", TextUtils.leftPadString(null, 4));
+        assertEquals("    ", TextUtils.rightJustifyText(null, 4, ' '));
     }
     
-    public void testLeftPadStringEmptyString()
+    public void testRightJustifyTextEmptyString()
     {
-        assertEquals("****", TextUtils.leftPadString("", 4, '*'));
+        assertEquals("****", TextUtils.rightJustifyText("", 4, '*'));
     }
     
-    public void testLeftPadStringShortString()
+    public void testRightJustifyTextShortString()
     {
-        assertEquals("**aa", TextUtils.leftPadString("aa", 4, '*'));
+        assertEquals("**aa", TextUtils.rightJustifyText("aa", 4, '*'));
     }
     
-    public void testLeftPadStringEqualString()
+    public void testRightJustifyTextEqualString()
     {
-        assertEquals("abcd", TextUtils.leftPadString("abcd", 4));
+        assertEquals("abcd", TextUtils.rightJustifyText("abcd", 4, ' '));
     }
     
-    public void testLeftPadStringLongString()
+    public void testRightJustifyTextLongString()
     {
-        assertEquals("bcde", TextUtils.leftPadString("abcde", 4));
+        assertEquals("abcde", TextUtils.rightJustifyText("abcde", 4, ' '));
     }
 
 }

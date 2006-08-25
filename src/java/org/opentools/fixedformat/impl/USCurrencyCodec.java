@@ -2,13 +2,11 @@ package org.opentools.fixedformat.impl;
 
 import java.math.BigDecimal;
 
-import org.opentools.fixedformat.ValueCodec;
-import org.opentools.textutils.NumberUtils;
-
-public class USCurrencyCodec implements ValueCodec
+public final class USCurrencyCodec extends ValueCodecBase
 {
 
-    public String encodeValue(Object value, int length)
+    
+    protected String objectToString(Object value)
     {
         String encodedValue = "";
         
@@ -24,12 +22,12 @@ public class USCurrencyCodec implements ValueCodec
         
         BigDecimal cValue = (BigDecimal) value;
         
-        encodedValue = NumberUtils.zeroPadNumber(cValue.setScale(2, BigDecimal.ROUND_HALF_EVEN).abs().unscaledValue().toString(), length);
+        encodedValue = cValue.setScale(2, BigDecimal.ROUND_HALF_EVEN).abs().unscaledValue().toString();
         
         return encodedValue;
     }
 
-    public Object decodeValue(String value)
+    protected Object stringToObject(String value)
     {
         if (value == null)
         {

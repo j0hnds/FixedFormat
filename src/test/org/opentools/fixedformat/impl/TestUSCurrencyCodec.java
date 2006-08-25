@@ -61,6 +61,9 @@ public class TestUSCurrencyCodec extends TestCase
     
     public void testEncodeValueShort()
     {
+        codec.setPaddable(true);
+        codec.setPadCharacter('0');
+        codec.setJustification(ValueCodec.RIGHT_JUSTIFIED);
         assertEquals("002310", codec.encodeValue(new BigDecimal("23.1"), 6));
     }
     

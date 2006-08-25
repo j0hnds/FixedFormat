@@ -13,7 +13,7 @@ import org.opentools.textutils.TextUtils;
 public class ACHRecordIdentifier implements RecordIdentifier
 {
 
-    public String getRecordIdentifier(String record)
+    public final String getRecordIdentifier(String record)
     {
         String recordIdentifier = null;
         

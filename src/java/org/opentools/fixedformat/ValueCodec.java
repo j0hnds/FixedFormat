@@ -8,6 +8,11 @@ package org.opentools.fixedformat;
  */
 public interface ValueCodec
 {
+    // Justification values
+    int LEFT_JUSTIFIED = 1;
+    int RIGHT_JUSTIFIED = 2;
+    int CENTER_JUSTIFIED = 3;
+    
     /**
      * Encodes the value for use in fixed-format record
      * 
@@ -24,4 +29,24 @@ public interface ValueCodec
      * @return the decoded value.
      */
     Object decodeValue(String value);
+    
+    void setJustification(int justification);
+    
+    int getJustification();
+    
+    void setTruncatable(boolean truncatable);
+    
+    boolean isTrucatable();
+    
+    void setPaddable(boolean paddable);
+    
+    boolean isPaddable();
+    
+    void setPadCharacter(char padCharacter);
+    
+    char getPadCharacter();
+    
+    void setRequired(boolean required);
+    
+    boolean isRequired();
 }

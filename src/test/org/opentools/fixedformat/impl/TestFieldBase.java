@@ -1,6 +1,7 @@
 package org.opentools.fixedformat.impl;
 
 import org.opentools.fixedformat.Field;
+import org.opentools.fixedformat.ValueCodec;
 
 import junit.framework.TestCase;
 
@@ -10,11 +11,16 @@ public class TestFieldBase extends TestCase
     
     protected void setUp() throws Exception
     {
+        ValueCodec codec = new StringCodec();
+        codec.setPaddable(true);
+        codec.setPadCharacter(' ');
+        codec.setJustification(ValueCodec.LEFT_JUSTIFIED);
+        
         field = new FieldBase();
         field.setDescription("FieldDescription");
         field.setLength(4);
         field.setName("name");
-        field.setValueCodec(new StringCodec());
+        field.setValueCodec(codec);
     }
 
     protected void tearDown() throws Exception
@@ -92,7 +98,7 @@ public class TestFieldBase extends TestCase
 
     public void testExtractTypedValuePosition0()
     {
-        assertEquals("a", field.extractTypedValue("   abcdefg", 0));
+        assertEquals("a", field.extractTypedValue("a   bcdefg", 0));
     }
 
     public void testExtractTypedValuePositionEnd()
@@ -182,7 +188,7 @@ public class TestFieldBase extends TestCase
 
     public void testFormatValueShortValue()
     {
-        assertEquals("  aa", field.formatValue("aa"));
+        assertEquals("aa  ", field.formatValue("aa"));
     }
 
     public void testFormatValueEqualValue()
@@ -192,6 +198,14 @@ public class TestFieldBase extends TestCase
 
     public void testFormatValueLongValue()
     {
-        assertEquals("bcde", field.formatValue("abcde"));
+        try
+        {
+            field.formatValue("abcde");
+            fail("Should have thrown exception");
+        }
+        catch (IllegalArgumentException e)
+        {
+            
+        }
     }
 }

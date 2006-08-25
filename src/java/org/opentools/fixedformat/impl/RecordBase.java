@@ -21,7 +21,7 @@ public class RecordBase implements Record
     private ObjectPopulator mapPopulator;
     private ObjectPopulator beanPopulator;
     
-    public Map scanRecord(String record)
+    public final Map scanRecord(String record)
     {
         Map recordMap = new HashMap();
         
@@ -30,12 +30,12 @@ public class RecordBase implements Record
         return recordMap;
     }
 
-    public void scanRecord(String record, Object valueObject)
+    public final void scanRecord(String record, Object valueObject)
     {
         populateObject(record, valueObject, beanPopulator);
     }
 
-    public String formatRecord(Object record)
+    public final String formatRecord(Object record)
     {
         String formattedRecord = null;
         
@@ -56,37 +56,37 @@ public class RecordBase implements Record
         return formattedRecord;
     }
 
-    public List getFieldDefinitions()
+    public final List getFieldDefinitions()
     {
         return fieldDefinitions;
     }
 
-    public void setFieldDefinitions(List fieldDefinitions)
+    public final void setFieldDefinitions(List fieldDefinitions)
     {
         this.fieldDefinitions = fieldDefinitions;
     }
 
-    public ObjectPopulator getBeanPopulator()
+    public final ObjectPopulator getBeanPopulator()
     {
         return beanPopulator;
     }
 
-    public void setBeanPopulator(ObjectPopulator beanPopulator)
+    public final void setBeanPopulator(ObjectPopulator beanPopulator)
     {
         this.beanPopulator = beanPopulator;
     }
 
-    public ObjectPopulator getMapPopulator()
+    public final ObjectPopulator getMapPopulator()
     {
         return mapPopulator;
     }
 
-    public void setMapPopulator(ObjectPopulator mapPopulator)
+    public final void setMapPopulator(ObjectPopulator mapPopulator)
     {
         this.mapPopulator = mapPopulator;
     }
     
-    private String formatObject(Object objectToFormat, ObjectPopulator populator)
+    private final String formatObject(Object objectToFormat, ObjectPopulator populator)
     {
         StringBuffer sb = new StringBuffer();
         

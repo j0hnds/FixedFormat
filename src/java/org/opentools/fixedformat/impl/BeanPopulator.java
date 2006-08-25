@@ -7,7 +7,7 @@ import org.opentools.textutils.TextUtils;
 public class BeanPopulator implements ObjectPopulator
 {
 
-    public void populateValue(Object objectToPopulate, String propertyName,
+    public final void populateValue(Object objectToPopulate, String propertyName,
             Object value)
     {
         if (objectToPopulate == null)
@@ -31,7 +31,7 @@ public class BeanPopulator implements ObjectPopulator
 
     }
 
-    public Object getValue(Object objectToAccess, String propertyName)
+    public final Object getValue(Object objectToAccess, String propertyName)
     {
         if (objectToAccess == null)
         {

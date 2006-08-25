@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.opentools.fixedformat.Field;
 import org.opentools.fixedformat.Record;
+import org.opentools.fixedformat.ValueCodec;
 
 import junit.framework.TestCase;
 
@@ -20,32 +21,47 @@ public class TestRecordBase extends TestCase
         record = new RecordBase();
         List fieldDefinitions = new ArrayList();
         
+        ValueCodec stringCodec = new StringCodec();
+        stringCodec.setPaddable(true);
+        stringCodec.setPadCharacter(' ');
+        stringCodec.setJustification(ValueCodec.LEFT_JUSTIFIED);
+        
+        ValueCodec longCodec = new LongCodec();
+        longCodec.setPaddable(true);
+        longCodec.setPadCharacter('0');
+        longCodec.setJustification(ValueCodec.RIGHT_JUSTIFIED);
+        
+        ValueCodec usCurrencyCodec = new USCurrencyCodec();
+        usCurrencyCodec.setPaddable(true);
+        usCurrencyCodec.setPadCharacter('0');
+        usCurrencyCodec.setJustification(ValueCodec.RIGHT_JUSTIFIED);
+        
         Field fld = new FieldBase();
         fld.setName("recordType");
         fld.setLength(1);
         fld.setDescription("Record Type Holder");
-        fld.setValueCodec(new StringCodec());
+        fld.setValueCodec(stringCodec);
         fieldDefinitions.add(fld);
         
         fld = new FieldBase();
         fld.setName("otherValue");
         fld.setLength(4);
         fld.setDescription("Other Value Holder");
-        fld.setValueCodec(new StringCodec());
+        fld.setValueCodec(stringCodec);
         fieldDefinitions.add(fld);
         
         fld = new FieldBase();
         fld.setName("longValue");
         fld.setLength(4);
         fld.setDescription("Long Value Holder");
-        fld.setValueCodec(new LongCodec());
+        fld.setValueCodec(longCodec);
         fieldDefinitions.add(fld);
         
         fld = new FieldBase();
         fld.setName("decimalValue");
         fld.setLength(12);
         fld.setDescription("Decimal Value Holder");
-        fld.setValueCodec(new USCurrencyCodec());
+        fld.setValueCodec(usCurrencyCodec);
         fieldDefinitions.add(fld);
         
         record.setFieldDefinitions(fieldDefinitions);
@@ -60,7 +76,7 @@ public class TestRecordBase extends TestCase
     
     public void testScanRecordIntoMap()
     {
-        Map mappedRecord = record.scanRecord("1  cd0033000000000389");
+        Map mappedRecord = record.scanRecord("1cd  0033000000000389");
         assertNotNull(mappedRecord);
         assertEquals(4, mappedRecord.size());
         assertTrue(mappedRecord.containsKey("recordType"));
@@ -77,7 +93,7 @@ public class TestRecordBase extends TestCase
     public void testScanRecordBean()
     {
         BeanToTest beanToTest = new BeanToTest();
-        record.scanRecord("1  cd0033000000000389", beanToTest);
+        record.scanRecord("1cd  0033000000000389", beanToTest);
         
         assertEquals("1", beanToTest.getRecordType());
         assertEquals("cd", beanToTest.getOtherValue());
@@ -94,7 +110,7 @@ public class TestRecordBase extends TestCase
         beanToTest.setLongValue(new Long(9988));
         beanToTest.setDecimalValue(new BigDecimal("148.9"));
         
-        assertEquals("3  de9988000000014890", record.formatRecord(beanToTest));
+        assertEquals("3de  9988000000014890", record.formatRecord(beanToTest));
     }
     
     public void testFormatMap()
@@ -105,7 +121,7 @@ public class TestRecordBase extends TestCase
         mapToTest.put("longValue", new Long(9988));
         mapToTest.put("decimalValue", new BigDecimal("148.9"));
         
-        assertEquals("6   c9988000000014890", record.formatRecord(mapToTest));
+        assertEquals("6c   9988000000014890", record.formatRecord(mapToTest));
     }
 
     public static class BeanToTest
