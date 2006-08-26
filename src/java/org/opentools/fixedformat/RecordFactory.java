@@ -30,5 +30,5 @@ public interface RecordFactory
      * @return newly created fixed length record. null
      * if unable to determine the record type.
      */
-    Record createRecord(String record);
+    Object createRecord(String record);
 }
