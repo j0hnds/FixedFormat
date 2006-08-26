@@ -1,5 +1,7 @@
 package org.opentools.fixedformat.impl;
 
+import java.math.BigDecimal;
+
 import org.opentools.fixedformat.RecordFactory;
 import org.opentools.fixedformat.impl.test.TestDetailRecord;
 import org.opentools.fixedformat.impl.test.TestHeaderRecord;
@@ -50,6 +52,25 @@ public class TestRecordFactoryBase extends TestCase
         assertEquals(2L, tdr.getRecordType());
         assertEquals("Item 1", tdr.getDescription());
         assertEquals(303L, tdr.getAmount().longValue());
+    }
+    
+    public void testHeader1Format()
+    {
+        TestHeaderRecord thr = new TestHeaderRecord();
+        thr.setRecordType(1L);
+        thr.setDescription("HeaderDescription");
+        
+        assertEquals(HEADER_RECORD_1, recordFactory.formatRecord(thr));
+    }
+    
+    public void testDetail1Format()
+    {
+        TestDetailRecord tdr = new TestDetailRecord();
+        tdr.setRecordType(2L);
+        tdr.setDescription("Item 1");
+        tdr.setAmount(new BigDecimal("3.03").setScale(2, BigDecimal.ROUND_HALF_EVEN));
+        
+        assertEquals(DETAIL_RECORD_1, recordFactory.formatRecord(tdr));
     }
     
 }
