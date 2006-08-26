@@ -31,4 +31,6 @@ public interface RecordFactory
      * if unable to determine the record type.
      */
     Object createRecord(String record);
+    
+    String formatRecord(RecordTypeAccessor valueObject);
 }
