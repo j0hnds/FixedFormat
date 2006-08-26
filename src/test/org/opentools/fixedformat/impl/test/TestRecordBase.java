@@ -1,6 +1,8 @@
 package org.opentools.fixedformat.impl.test;
 
-public class TestRecordBase
+import org.opentools.fixedformat.RecordTypeAccessor;
+
+public class TestRecordBase implements RecordTypeAccessor
 {
     private long recordType;
 
@@ -14,4 +16,10 @@ public class TestRecordBase
         this.recordType = recordType;
     }
 
+    public String getRecordTypeAsString()
+    {
+        return Long.toString(recordType);
+    }
+
+    
 }
