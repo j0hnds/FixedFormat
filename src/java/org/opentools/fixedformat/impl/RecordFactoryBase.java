@@ -5,6 +5,7 @@ import java.util.Map;
 import org.opentools.fixedformat.Record;
 import org.opentools.fixedformat.RecordFactory;
 import org.opentools.fixedformat.RecordIdentifier;
+import org.opentools.fixedformat.RecordTypeAccessor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -65,6 +66,33 @@ public class RecordFactoryBase implements RecordFactory, BeanFactoryAware
         recordFormat.scanRecord(record, recordData);
         
         return recordData;
+    }
+
+    public String formatRecord(RecordTypeAccessor valueObject)
+    {
+        if (valueObject == null)
+        {
+            throw new IllegalArgumentException("Value object must not be null");
+        }
+
+        String recordType = valueObject.getRecordTypeAsString();
+        if (recordType == null)
+        {
+            throw new IllegalArgumentException("Null record type");
+        }
+
+        if (recordFormats == null)
+        {
+            throw new IllegalStateException("No Record Format Map configured for this factory");
+        }
+        
+        Record recordFormat = (Record) recordFormats.get(recordType);
+        if (recordFormat == null)
+        {
+            throw new IllegalStateException("No record format configured for this record ID: " + recordType);
+        }
+        
+        return recordFormat.formatRecord(valueObject);
     }
 
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException
