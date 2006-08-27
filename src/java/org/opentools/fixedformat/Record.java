@@ -1,19 +1,9 @@
 package org.opentools.fixedformat;
 
 import java.util.List;
-import java.util.Map;
 
 public interface Record
 {
-    /**
-     * Reads the record into the map.
-     * 
-     * @param record the record to read.
-     * @return a map containing the values in the record. The
-     * map keys are the field names.
-     */
-    Map scanRecord(String record);
-    
     /**
      * Reads the record into the specified value object. Uses
      * the field names to map to properties in the value object
@@ -36,15 +26,21 @@ public interface Record
      */
     String formatRecord(Object record);
     
+    /**
+     * Sets the field definitions on the record.
+     * 
+     * @param fieldList the list of field definitions to set.
+     */
     void setFieldDefinitions(List fieldList);
     
+    /**
+     * Returns the list of field definitions for the record.
+     * 
+     * @return the list of field definitions.
+     */
     List getFieldDefinitions();
     
-    void setMapPopulator(ObjectPopulator populator);
+    void setPopulator(ObjectPopulator populator);
     
-    ObjectPopulator getMapPopulator();
-    
-    void setBeanPopulator(ObjectPopulator populator);
-    
-    ObjectPopulator getBeanPopulator();
+    ObjectPopulator getPopulator();
 }

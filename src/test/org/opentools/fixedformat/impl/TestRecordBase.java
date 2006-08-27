@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.opentools.fixedformat.Field;
+import org.opentools.fixedformat.ObjectPopulator;
 import org.opentools.fixedformat.Record;
 import org.opentools.fixedformat.ValueCodec;
 
@@ -15,9 +16,14 @@ import junit.framework.TestCase;
 public class TestRecordBase extends TestCase
 {
     private Record record;
+    private ObjectPopulator beanPopulator;
+    private ObjectPopulator mapPopulator;
     
     protected void setUp() throws Exception
     {
+        beanPopulator = new BeanPopulator();
+        mapPopulator = new MapPopulator();
+        
         record = new RecordBase();
         List fieldDefinitions = new ArrayList();
         
@@ -65,8 +71,6 @@ public class TestRecordBase extends TestCase
         fieldDefinitions.add(fld);
         
         record.setFieldDefinitions(fieldDefinitions);
-        record.setBeanPopulator(new BeanPopulator());
-        record.setMapPopulator(new MapPopulator());
     }
 
     protected void tearDown() throws Exception
@@ -76,7 +80,9 @@ public class TestRecordBase extends TestCase
     
     public void testScanRecordIntoMap()
     {
-        Map mappedRecord = record.scanRecord("1cd  0033000000000389");
+        record.setPopulator(mapPopulator);
+        Map mappedRecord = new HashMap();
+        record.scanRecord("1cd  0033000000000389", mappedRecord);
         assertNotNull(mappedRecord);
         assertEquals(4, mappedRecord.size());
         assertTrue(mappedRecord.containsKey("recordType"));
@@ -92,6 +98,7 @@ public class TestRecordBase extends TestCase
     
     public void testScanRecordBean()
     {
+        record.setPopulator(beanPopulator);
         BeanToTest beanToTest = new BeanToTest();
         record.scanRecord("1cd  0033000000000389", beanToTest);
         
@@ -104,6 +111,7 @@ public class TestRecordBase extends TestCase
     
     public void testFormatBean()
     {
+        record.setPopulator(beanPopulator);
         BeanToTest beanToTest = new BeanToTest();
         beanToTest.setRecordType("3");
         beanToTest.setOtherValue("de");
@@ -115,6 +123,7 @@ public class TestRecordBase extends TestCase
     
     public void testFormatMap()
     {
+        record.setPopulator(mapPopulator);
         Map mapToTest = new HashMap();
         mapToTest.put("recordType", "6");
         mapToTest.put("otherValue", "c");

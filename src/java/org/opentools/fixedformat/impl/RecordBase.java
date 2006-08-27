@@ -1,9 +1,7 @@
 package org.opentools.fixedformat.impl;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.opentools.fixedformat.Field;
 import org.opentools.fixedformat.ObjectPopulator;
@@ -18,21 +16,11 @@ import org.opentools.fixedformat.Record;
 public class RecordBase implements Record
 {
     private List fieldDefinitions;
-    private ObjectPopulator mapPopulator;
-    private ObjectPopulator beanPopulator;
+    private ObjectPopulator populator;
     
-    public final Map scanRecord(String record)
-    {
-        Map recordMap = new HashMap();
-        
-        populateObject(record, recordMap, mapPopulator);
-        
-        return recordMap;
-    }
-
     public final void scanRecord(String record, Object valueObject)
     {
-        populateObject(record, valueObject, beanPopulator);
+        populateObject(record, valueObject, populator);
     }
 
     public final String formatRecord(Object record)
@@ -44,14 +32,7 @@ public class RecordBase implements Record
             throw new IllegalArgumentException("Must specify non-null record to format");
         }
         
-        if (record instanceof Map)
-        {
-            formattedRecord = formatObject(record, mapPopulator);
-        }
-        else
-        {
-            formattedRecord = formatObject(record, beanPopulator);
-        }
+        formattedRecord = formatObject(record, populator);
         
         return formattedRecord;
     }
@@ -66,26 +47,16 @@ public class RecordBase implements Record
         this.fieldDefinitions = fieldDefinitions;
     }
 
-    public final ObjectPopulator getBeanPopulator()
+    public final ObjectPopulator getPopulator()
     {
-        return beanPopulator;
+        return populator;
     }
 
-    public final void setBeanPopulator(ObjectPopulator beanPopulator)
+    public final void setPopulator(ObjectPopulator beanPopulator)
     {
-        this.beanPopulator = beanPopulator;
+        this.populator = beanPopulator;
     }
 
-    public final ObjectPopulator getMapPopulator()
-    {
-        return mapPopulator;
-    }
-
-    public final void setMapPopulator(ObjectPopulator mapPopulator)
-    {
-        this.mapPopulator = mapPopulator;
-    }
-    
     private final String formatObject(Object objectToFormat, ObjectPopulator populator)
     {
         StringBuffer sb = new StringBuffer();

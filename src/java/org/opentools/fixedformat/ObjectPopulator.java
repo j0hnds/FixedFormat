@@ -18,5 +18,12 @@ public interface ObjectPopulator
      */
     void populateValue(Object objectToPopulate, String propertyName, Object value);
     
+    /**
+     * Retrieves the value from the specified object.
+     * 
+     * @param objectToAccess the object from which to obtain the value.
+     * @param propertyName the name of the property to access.
+     * @return the value of the property.
+     */
     Object getValue(Object objectToAccess, String propertyName);
 }

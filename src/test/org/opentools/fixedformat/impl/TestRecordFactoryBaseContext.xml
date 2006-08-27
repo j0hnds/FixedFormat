@@ -29,7 +29,7 @@
 	
 	<!-- The record format definitions -->
 	<bean id="HeaderFormatter" class="org.opentools.fixedformat.impl.RecordBase">
-		<property name="beanPopulator" ref="BeanPopulator" />
+		<property name="populator" ref="BeanPopulator" />
 		<property name="fieldDefinitions">
 			<list>
 				<ref bean="RecordId" />
@@ -38,7 +38,7 @@
 		</property>
 	</bean>
 	<bean id="DetailFormatter" class="org.opentools.fixedformat.impl.RecordBase">
-		<property name="beanPopulator" ref="BeanPopulator" />
+		<property name="populator" ref="BeanPopulator" />
 		<property name="fieldDefinitions">
 			<list>
 				<ref bean="RecordId" />
