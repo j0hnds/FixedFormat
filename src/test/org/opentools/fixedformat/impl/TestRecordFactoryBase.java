@@ -1,6 +1,8 @@
 package org.opentools.fixedformat.impl;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.opentools.fixedformat.RecordFactory;
 import org.opentools.fixedformat.impl.test.TestDetailRecord;
@@ -14,7 +16,7 @@ import junit.framework.TestCase;
 public class TestRecordFactoryBase extends TestCase
 {
     private static final String HEADER_RECORD_1 = "1HeaderDescription   ";
-    private static final String DETAIL_RECORD_1 = "2Item 1    000000000303";
+    private static final String DETAIL_RECORD_1 = "2Item 1    00000000030308312333";
     
     private RecordFactory recordFactory;
     
@@ -52,6 +54,18 @@ public class TestRecordFactoryBase extends TestCase
         assertEquals(2L, tdr.getRecordType());
         assertEquals("Item 1", tdr.getDescription());
         assertEquals(303L, tdr.getAmount().longValue());
+        
+        Date dt = tdr.getDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dt);
+        assertEquals(Calendar.AUGUST, cal.get(Calendar.MONTH));
+        assertEquals(31, cal.get(Calendar.DAY_OF_MONTH));
+        
+        dt = tdr.getTime();
+        cal = Calendar.getInstance();
+        cal.setTime(dt);
+        assertEquals(23, cal.get(Calendar.HOUR_OF_DAY));
+        assertEquals(33, cal.get(Calendar.MINUTE));
     }
     
     public void testHeader1Format()
@@ -69,6 +83,15 @@ public class TestRecordFactoryBase extends TestCase
         tdr.setRecordType(2L);
         tdr.setDescription("Item 1");
         tdr.setAmount(new BigDecimal("3.03").setScale(2, BigDecimal.ROUND_HALF_EVEN));
+        
+        
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MONTH, Calendar.AUGUST);
+        cal.set(Calendar.DAY_OF_MONTH, 31);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 33);
+        tdr.setDate(cal.getTime());
+        tdr.setTime(cal.getTime());
         
         assertEquals(DETAIL_RECORD_1, recordFactory.formatRecord(tdr));
     }

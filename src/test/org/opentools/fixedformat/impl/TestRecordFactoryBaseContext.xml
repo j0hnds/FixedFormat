@@ -44,6 +44,8 @@
 				<ref bean="RecordId" />
 				<ref bean="DetailDescription" />
 				<ref bean="DetailAmount" />
+				<ref bean="DetailDate" />
+				<ref bean="DetailTime" />
 			</list>
 		</property>
 	</bean>
@@ -76,6 +78,18 @@
 		<property name="name" value="amount" />
 		<property name="valueCodec" ref="CurrencyCodec" />
 	</bean>
+	<bean id="DetailDate" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="The detail transaction date" />
+		<property name="length" value="4" />
+		<property name="name" value="date" />
+		<property name="valueCodec" ref="DateCodec" />
+	</bean>
+	<bean id="DetailTime" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="The detail transaction time" />
+		<property name="length" value="4" />
+		<property name="name" value="time" />
+		<property name="valueCodec" ref="TimeCodec" />
+	</bean>
 	
 	<!-- Create the codecs we will be using for the records -->
 	<bean id="LongCodec" class="org.opentools.fixedformat.impl.LongCodec">
@@ -98,6 +112,22 @@
 		<property name="paddable" value="true" />
 		<property name="required" value="true" />
 		<property name="truncatable" value="false" />
+	</bean>
+	<bean id="DateCodec" class="org.opentools.fixedformat.impl.DateTimeCodec">
+		<property name="justification" value="1" />
+		<property name="padCharacter" value=" " />
+		<property name="paddable" value="true" />
+		<property name="required" value="true" />
+		<property name="truncatable" value="false" />
+		<property name="formatString" value="MMdd" />
+	</bean>
+	<bean id="TimeCodec" class="org.opentools.fixedformat.impl.DateTimeCodec">
+		<property name="justification" value="1" />
+		<property name="padCharacter" value=" " />
+		<property name="paddable" value="true" />
+		<property name="required" value="true" />
+		<property name="truncatable" value="false" />
+		<property name="formatString" value="HHmm" />
 	</bean>
 	
 	<!-- The data records to use for the content of the records (non-singleton) -->
