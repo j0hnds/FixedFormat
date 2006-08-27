@@ -6,14 +6,10 @@ import org.opentools.fixedformat.Record;
 import org.opentools.fixedformat.RecordFactory;
 import org.opentools.fixedformat.RecordIdentifier;
 import org.opentools.fixedformat.RecordTypeAccessor;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 
-public class RecordFactoryBase implements RecordFactory, BeanFactoryAware
+public class RecordFactoryBase implements RecordFactory
 {
     private RecordIdentifier recordIdentifier;
-    private BeanFactory beanFactory;
     private Map recordFormats;
     private Map recordDataMap;
     
@@ -93,12 +89,6 @@ public class RecordFactoryBase implements RecordFactory, BeanFactoryAware
         }
         
         return recordFormat.formatRecord(valueObject);
-    }
-
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException
-    {
-        this.beanFactory = beanFactory;
-
     }
 
     public Map getRecordDataMap()

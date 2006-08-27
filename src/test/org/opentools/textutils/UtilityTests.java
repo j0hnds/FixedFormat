@@ -12,6 +12,7 @@ public class UtilityTests
         //$JUnit-BEGIN$
         suite.addTestSuite(TestTextUtils.class);
         suite.addTestSuite(TestNumberUtils.class);
+        suite.addTestSuite(TestDateTimeUtils.class);
         //$JUnit-END$
         return suite;
     }
