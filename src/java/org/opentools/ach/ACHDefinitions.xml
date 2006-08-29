@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--
+	Application context for TestRecordFactoryBase
+-->
+<beans>
+
+	<!--  The ACH record factory -->
+	<bean id="ACHRecordFactory" class="org.opentools.fixedformat.impl.RecordFactoryBase">
+		<!-- Set the record identifier -->
+		<property name="recordIdentifier" ref="RecordIdentifier" />
+		<!-- Set the record formatters -->
+		<property name="recordFormats">
+			<map>
+				<entry key="1" value-ref="FileHeaderFormatter" />
+				<entry key="5" value-ref="BatchHeaderFormatter" />
+				<entry key="6" value-ref="EntryDetailFormatter" />
+				<entry key="7" value-ref="EntryDetailAddendaFormatter" />
+				<entry key="8" value-ref="BatchTotalFormatter" />
+				<entry key="9" value-ref="FileTotalFormatter" />
+			</map>
+		</property>
+		<!-- Set the data record templates -->
+		<property name="recordDataMap">
+			<map>
+				<entry key="1" value-ref="HeaderRecord" />
+				<entry key="5" value-ref="DetailRecord" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- The record format definitions -->
+	<bean id="FileHeaderFormatter" class="org.opentools.fixedformat.impl.RecordBase">
+		<property name="populator" ref="BeanPopulator" />
+		<property name="fieldDefinitions">
+			<list>
+				<ref bean="RECORD_CODE" />
+				<ref bean="PRIORITY_CODE" />
+				<ref bean="IMMEDIATE_DESTINATION" />
+				<ref bean="IMMEDIATE_ORIGIN" />
+				<ref bean="FILE_CREATION_DATE" />
+				<ref bean="FILE_CREATION_TIME" />
+				<ref bean="FILE_ID_MODIFIER" />
+				<ref bean="RECORD_SIZE" />
+				<ref bean="BLOCKING_FACTOR" />
+				<ref bean="FORMAT_CODE" />
+				<ref bean="IMMEDIATE_DESTINATION_NAME" />
+				<ref bean="IMMEDIATE_ORIGIN_NAME" />
+				<ref bean="REFERENCE_CODE" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="BatchHeaderFormatter" class="org.opentools.fixedformat.impl.RecordBase">
+		<property name="populator" ref="BeanPopulator" />
+		<property name="fieldDefinitions">
+			<list>
+				<ref bean="RECORD_CODE" />
+				<ref bean="SERVICE_CLASS_CODE" />
+				<ref bean="COMPANY_NAME" />
+				<ref bean="COMPANY_DISCRETIONARY_DATA" />
+				<ref bean="COMPANY_IDENTIFICATION" />
+				<ref bean="STANDARD_ENTRY_CLASS_CODE" />
+				<ref bean="COMPANY_ENTRY_DESCRIPTION" />
+				<ref bean="COMPANY_DESCRIPTIVE_DATE" />
+				<ref bean="EFFECTIVE_ENTRY_DATE" />
+				<ref bean="SETTLEMENT_DATE_JULIAN" />
+				<ref bean="ORIGINATOR_STATUS_CODE" />
+				<ref bean="ORIGINATING_DEPOSITORY_FINANCIAL_INSTITUTION" />
+				<ref bean="BATCH_NUMBER" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="EntryDetailFormatter" class="org.opentools.fixedformat.impl.RecordBase">
+		<property name="populator" ref="BeanPopulator" />
+		<property name="fieldDefinitions">
+			<list>
+				<ref bean="RECORD_CODE" />
+				<ref bean="TRANSACTION_CODE" />
+				<ref bean="RECEIVING_RDFI_IDENTIFICATION" />
+				<ref bean="CHECK_DIGIT" />
+				<ref bean="RDFI_ACCOUNT_NUMBER" />
+				<ref bean="AMOUNT" />
+				<ref bean="IDENTIFICATION_NUMBER" />
+				<ref bean="ACCOUNT_HOLDER_NAME" />
+				<ref bean="DISCRETIONARY_DATA_FIELD" />
+				<ref bean="ADDENDA_RECORD_INDICATOR" />
+				<ref bean="ORIGINATING_ODFI" />
+				<ref bean="TRACE_NUMBER" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="EntryDetailAddendaFormatter" class="org.opentools.fixedformat.impl.RecordBase">
+		<property name="populator" ref="BeanPopulator" />
+		<property name="fieldDefinitions">
+			<list>
+				<ref bean="RECORD_CODE" />
+				<ref bean="ADDENDA_TYPE_CODE" />
+				<ref bean="PAYMENT_RELATED_INFORMATION" />
+				<ref bean="ADDENDA_SEQUENCE_NUMBER" />
+				<ref bean="ENTRY_DETAIL_SEQUENCE_NUMBER" />
+			</list>
+		</property>
+	</bean>
+	<bean id="BatchTotalFormatter" class="org.opentools.fixedformat.impl.RecordBase">
+		<property name="populator" ref="BeanPopulator" />
+		<property name="fieldDefinitions">
+			<list>
+				<ref bean="RECORD_CODE" />
+				<ref bean="SERVICE_CLASS_CODE" />
+				<ref bean="ENTRY_ADDENDA_COUNT" />
+				<ref bean="ENTRY_HASH" />
+				<ref bean="TOTAL_DEBIT_ENTRY_DOLLARS" />
+				<ref bean="TOTAL_CREDIT_ENTRY_DOLLARS" />
+				<ref bean="COMPANY_IDENTIFICATION" />
+				<ref bean="AUTHENTICATION_MESSAGE" />
+				<ref bean="RESERVED" />
+				<ref bean="ORIGINATING_ODFI" />
+				<ref bean="BATCH_NUMBER" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="FileTotalFormatter" class="org.opentools.fixedformat.impl.RecordBase">
+		<property name="populator" ref="BeanPopulator" />
+		<property name="fieldDefinitions">
+			<list>
+				<ref bean="RECORD_CODE" />
+				<ref bean="BATCH_COUNT" />
+				<ref bean="BLOCK_COUNT" />
+				<ref bean="FT_ENTRY_ADDENDA_COUNT" />
+				<ref bean="ENTRY_HASH" />
+				<ref bean="TOTAL_DEBIT_ENTRY_DOLLARS" />
+				<ref bean="TOTAL_CREDIT_ENTRY_DOLLARS" />
+				<ref bean="FT_RESERVED" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- ACH Field Definitions -->
+	<bean id="RECORD_CODE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="The type of ACH Record" />
+		<property name="length" value="1" />
+		<property name="name" value="recordCode" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="PRIORITY_CODE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="The priority code" />
+		<property name="length" value="2" />
+		<property name="name" value="priorityCode" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="IMMEDIATE_DESTINATION" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Transit/routing number" />
+		<property name="length" value="10" />
+		<property name="name" value="immediateDestination" />
+		<property name="valueCodec" ref="RJStringCodec" />
+	</bean>
+	<bean id="IMMEDIATE_ORIGIN" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Identifies customer providing file" />
+		<property name="length" value="10" />
+		<property name="name" value="immediateOrigin" />
+		<property name="valueCodec" ref="RJStringCodec" />
+	</bean>
+	<bean id="FILE_CREATION_DATE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Date of file creation" />
+		<property name="length" value="6" />
+		<property name="name" value="fileCreationDate" />
+		<property name="valueCodec" ref="DateCodec" />
+	</bean>
+	<bean id="FILE_CREATION_TIME" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Time of file creation" />
+		<property name="length" value="4" />
+		<property name="name" value="fileCreationTime" />
+		<property name="valueCodec" ref="TimeCodec" />
+	</bean>
+	<bean id="FILE_ID_MODIFIER" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Ability to modify each file" />
+		<property name="length" value="1" />
+		<property name="name" value="fileIDModifier" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="RECORD_SIZE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Size of records" />
+		<property name="length" value="3" />
+		<property name="name" value="recordSize" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="BLOCKING_FACTOR" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Number of records per block" />
+		<property name="length" value="2" />
+		<property name="name" value="blockingFactor" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="FORMAT_CODE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Record format indicator" />
+		<property name="length" value="1" />
+		<property name="name" value="formatCode" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="IMMEDIATE_DESTINATION_NAME" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Name of receiving institution" />
+		<property name="length" value="23" />
+		<property name="name" value="immediateDestinationName" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="IMMEDIATE_ORIGIN_NAME" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Name of originating institution" />
+		<property name="length" value="23" />
+		<property name="name" value="immediateOriginName" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="REFERENCE_CODE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Reference code value" />
+		<property name="length" value="8" />
+		<property name="name" value="referenceCode" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="SERVICE_CLASS_CODE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Class of service code" />
+		<property name="length" value="3" />
+		<property name="name" value="serviceClassCode" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="COMPANY_NAME" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Bank statement field" />
+		<property name="length" value="16" />
+		<property name="name" value="companyName" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="COMPANY_DISCRETIONARY_DATA" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="May be passed along, but may not be shown on bank statement" />
+		<property name="length" value="20" />
+		<property name="name" value="companyDiscretionaryData" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="COMPANY_IDENTIFICATION" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="1 + Federal Tax ID" />
+		<property name="length" value="10" />
+		<property name="name" value="companyIdentification" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="STANDARD_ENTRY_CLASS_CODE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Entry class code" />
+		<property name="length" value="3" />
+		<property name="name" value="standardEntryClassCode" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="COMPANY_ENTRY_DESCRIPTION" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Shown on bank statement" />
+		<property name="length" value="10" />
+		<property name="name" value="companyEntryDescription" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="COMPANY_DESCRIPTIVE_DATE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="May describe date" />
+		<property name="length" value="6" />
+		<property name="name" value="companyDescriptiveDate" />
+		<property name="valueCodec" ref="DateCodec" />
+	</bean>
+	<bean id="EFFECTIVE_ENTRY_DATE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Earliest date for settlement" />
+		<property name="length" value="6" />
+		<property name="name" value="effectiveEntryDate" />
+		<property name="valueCodec" ref="DateCodec" />
+	</bean>
+	<bean id="SETTLEMENT_DATE_JULIAN" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Settlement Date" />
+		<property name="length" value="3" />
+		<property name="name" value="settlementDateJulian" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="ORIGINATOR_STATUS_CODE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Status of originator" />
+		<property name="length" value="1" />
+		<property name="name" value="originatorStatusCode" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="ORIGINATING_DEPOSITORY_FINANCIAL_INSTITUTION" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="ODFI" />
+		<property name="length" value="8" />
+		<property name="name" value="originatingDepositoryFinancialInstitution" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="BATCH_NUMBER" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="ODFI" />
+		<property name="length" value="7" />
+		<property name="name" value="batchNumber" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="TRANSACTION_CODE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Type of transaction" />
+		<property name="length" value="2" />
+		<property name="name" value="transactionCode" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="RECEIVING_RDFI_IDENTIFICATION" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Consumer's routing number" />
+		<property name="length" value="8" />
+		<property name="name" value="receivingRDFIIdentification" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="CHECK_DIGIT" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Consumer's routing number check digit" />
+		<property name="length" value="1" />
+		<property name="name" value="checkDigit" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="RDFI_ACCOUNT_NUMBER" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Consumer's account number" />
+		<property name="length" value="17" />
+		<property name="name" value="rdfiAccountNumber" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="AMOUNT" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Amount of payment" />
+		<property name="length" value="10" />
+		<property name="name" value="amount" />
+		<property name="valueCodec" ref="CurrencyCodec" />
+	</bean>
+	<bean id="IDENTIFICATION_NUMBER" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Used to identify consumer" />
+		<property name="length" value="15" />
+		<property name="name" value="identificationNumber" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="ACCOUNT_HOLDER_NAME" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Name of account holder" />
+		<property name="length" value="22" />
+		<property name="name" value="identificationNumber" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="DISCRETIONARY_DATA_FIELD" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Normally not used" />
+		<property name="length" value="2" />
+		<property name="name" value="discretionaryData" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="ADDENDA_RECORD_INDICATOR" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Indicates if followed by an addenda record" />
+		<property name="length" value="1" />
+		<property name="name" value="addendaRecordIndicator" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="ORIGINATING_ODFI" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Originating ODFI" />
+		<property name="length" value="8" />
+		<property name="name" value="originatingODFI" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="TRACE_NUMBER" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Trace number" />
+		<property name="length" value="7" />
+		<property name="name" value="traceNumber" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="ADDENDA_TYPE_CODE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Type of addenda record" />
+		<property name="length" value="2" />
+		<property name="name" value="addendaTypeCode" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="PAYMENT_RELATED_INFORMATION" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Payment related information" />
+		<property name="length" value="80" />
+		<property name="name" value="paymentRelatedInformation" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="ADDENDA_SEQUENCE_NUMBER" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Addenda record sequence number" />
+		<property name="length" value="4" />
+		<property name="name" value="addendaSequenceNumber" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="ENTRY_DETAIL_SEQUENCE_NUMBER" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Entry detail sequence number" />
+		<property name="length" value="7" />
+		<property name="name" value="entryDetailSequenceNumber" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="ENTRY_ADDENDA_COUNT" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Number of entry addenda records" />
+		<property name="length" value="6" />
+		<property name="name" value="entryAddendaCount" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="ENTRY_HASH" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Entry hash code" />
+		<property name="length" value="10" />
+		<property name="name" value="entryHash" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="TOTAL_DEBIT_ENTRY_DOLLARS" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Total entry debit dollars" />
+		<property name="length" value="12" />
+		<property name="name" value="totalDebitEntryDollars" />
+		<property name="valueCodec" ref="CurrencyCodec" />
+	</bean>
+	<bean id="TOTAL_CREDIT_ENTRY_DOLLARS" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Total entry credit dollars" />
+		<property name="length" value="12" />
+		<property name="name" value="totalCreditEntryDollars" />
+		<property name="valueCodec" ref="CurrencyCodec" />
+	</bean>
+	<bean id="AUTHENTICATION_MESSAGE" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Currently not used" />
+		<property name="length" value="19" />
+		<property name="name" value="authenticationMessage" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="RESERVED" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Currently not used" />
+		<property name="length" value="6" />
+		<property name="name" value="reserved" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	<bean id="BATCH_COUNT" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Number of batches" />
+		<property name="length" value="6" />
+		<property name="name" value="batchCount" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="BLOCK_COUNT" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Number of blocks" />
+		<property name="length" value="6" />
+		<property name="name" value="blockCount" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="FT_ENTRY_ADDENDA_COUNT" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Number of entry addenda records" />
+		<property name="length" value="8" />
+		<property name="name" value="entryAddendaCount" />
+		<property name="valueCodec" ref="LongCodec" />
+	</bean>
+	<bean id="FT_RESERVED" class="org.opentools.fixedformat.impl.FieldBase">
+		<property name="description" value="Currently not used" />
+		<property name="length" value="39" />
+		<property name="name" value="reserved" />
+		<property name="valueCodec" ref="StringCodec" />
+	</bean>
+	
+	<!-- Codecs to support the field definitions -->
+	<bean id="LongCodec" class="org.opentools.fixedformat.impl.LongCodec">
+		<property name="justification" value="2" />
+		<property name="capitalization" value="1" />
+		<property name="padCharacter" value="0" />
+		<property name="paddable" value="true" />
+		<property name="truncatable" value="false" />
+	</bean>
+	<bean id="RJStringCodec" class="org.opentools.fixedformat.impl.StringCodec">
+		<property name="justification" value="2" />
+		<property name="capitalization" value="2" />
+		<property name="padCharacter" value=" " />
+		<property name="paddable" value="true" />
+		<property name="truncatable" value="true" />
+	</bean>
+	<bean id="StringCodec" class="org.opentools.fixedformat.impl.StringCodec">
+		<property name="justification" value="1" />
+		<property name="capitalization" value="2" />
+		<property name="padCharacter" value=" " />
+		<property name="paddable" value="true" />
+		<property name="truncatable" value="true" />
+	</bean>
+	<bean id="DateCodec" class="org.opentools.fixedformat.impl.DateTimeCodec">
+		<property name="justification" value="1" />
+		<property name="capitalization" value="1" />
+		<property name="padCharacter" value=" " />
+		<property name="paddable" value="true" />
+		<property name="truncatable" value="false" />
+		<property name="formatString" value="yyMMdd" />
+	</bean>
+	<bean id="DateCodec" class="org.opentools.fixedformat.impl.DateTimeCodec">
+		<property name="justification" value="1" />
+		<property name="capitalization" value="1" />
+		<property name="padCharacter" value=" " />
+		<property name="paddable" value="true" />
+		<property name="truncatable" value="false" />
+		<property name="formatString" value="HHmm" />
+	</bean>
+	<bean id="CurrencyCodec" class="org.opentools.fixedformat.impl.USCurrencyCodec">
+		<property name="justification" value="2" />
+		<property name="capitalization" value="1" />
+		<property name="padCharacter" value="0" />
+		<property name="paddable" value="true" />
+		<property name="truncatable" value="false" />
+	</bean>
+	
+	<!-- The record identifier to use -->
+	<bean id="RecordIdentifier" class="org.opentools.ach.ACHRecordIdentifier" />
+
+	<!-- The populators the record formatters will use -->
+	<bean id="BeanPopulator" class="org.opentools.fixedformat.impl.BeanPopulator" />
+	
+</beans>

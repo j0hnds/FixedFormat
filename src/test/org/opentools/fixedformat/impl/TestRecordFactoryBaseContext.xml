@@ -96,28 +96,24 @@
 		<property name="justification" value="2" />
 		<property name="padCharacter" value="0" />
 		<property name="paddable" value="false" />
-		<property name="required" value="true" />
 		<property name="truncatable" value="false" />
 	</bean>
 	<bean id="StringCodec" class="org.opentools.fixedformat.impl.StringCodec">
 		<property name="justification" value="1" />
 		<property name="padCharacter" value=" " />
 		<property name="paddable" value="true" />
-		<property name="required" value="true" />
 		<property name="truncatable" value="true" />
 	</bean>
 	<bean id="CurrencyCodec" class="org.opentools.fixedformat.impl.USCurrencyCodec">
 		<property name="justification" value="2" />
 		<property name="padCharacter" value="0" />
 		<property name="paddable" value="true" />
-		<property name="required" value="true" />
 		<property name="truncatable" value="false" />
 	</bean>
 	<bean id="DateCodec" class="org.opentools.fixedformat.impl.DateTimeCodec">
 		<property name="justification" value="1" />
 		<property name="padCharacter" value=" " />
 		<property name="paddable" value="true" />
-		<property name="required" value="true" />
 		<property name="truncatable" value="false" />
 		<property name="formatString" value="MMdd" />
 	</bean>
@@ -125,7 +121,6 @@
 		<property name="justification" value="1" />
 		<property name="padCharacter" value=" " />
 		<property name="paddable" value="true" />
-		<property name="required" value="true" />
 		<property name="truncatable" value="false" />
 		<property name="formatString" value="HHmm" />
 	</bean>

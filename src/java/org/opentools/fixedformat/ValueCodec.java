@@ -13,6 +13,11 @@ public interface ValueCodec
     int RIGHT_JUSTIFIED = 2;
     int CENTER_JUSTIFIED = 3;
     
+    // Capitalization values
+    int LITERAL_CASE = 1;
+    int UPPER_CASE = 2;
+    int LOWER_CASE = 3;
+    
     /**
      * Encodes the value for use in fixed-format record
      * 
@@ -46,7 +51,9 @@ public interface ValueCodec
     
     char getPadCharacter();
     
-    void setRequired(boolean required);
+    void setCapitalization(int capitalization);
     
-    boolean isRequired();
+    int getCapitalization();
+    
+    boolean isEmpty(String value);
 }

@@ -16,6 +16,7 @@ public class FieldBase implements Field
     private String name;
     private ValueCodec valueCodec;
     private String description;
+    private boolean required;
     
     public final void setLength(int length)
     {
@@ -37,6 +38,16 @@ public class FieldBase implements Field
     public final String getName()
     {
         return name;
+    }
+
+    public boolean isRequired()
+    {
+        return required;
+    }
+
+    public void setRequired(boolean required)
+    {
+        this.required = required;
     }
 
     public final void setValueCodec(ValueCodec codec)
@@ -110,7 +121,14 @@ public class FieldBase implements Field
             throw new IllegalStateException("No value codec configured for field");
         }
         
-        return valueCodec.encodeValue(value, length);
+        String encodedValue = valueCodec.encodeValue(value, length);
+        
+        if (required && valueCodec.isEmpty(encodedValue))
+        {
+            throw new IllegalArgumentException("Required field must have non-empty value");
+        }
+        
+        return encodedValue;
     }
 
 }

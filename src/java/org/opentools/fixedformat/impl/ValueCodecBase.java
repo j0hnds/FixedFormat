@@ -6,10 +6,10 @@ import org.opentools.textutils.TextUtils;
 public abstract class ValueCodecBase implements ValueCodec
 {
     private int justification = LEFT_JUSTIFIED;
+    private int capitalization = LITERAL_CASE;
     private boolean truncatable = false;
     private boolean paddable = false;
     private char padCharacter = ' ';
-    private boolean required = false;
     
     
     public final Object decodeValue(String value)
@@ -79,9 +79,15 @@ public abstract class ValueCodecBase implements ValueCodec
             }
         }
         
-        if (required && TextUtils.allPadCharacters(convertedValue, padCharacter))
+        switch (capitalization)
         {
-            throw new IllegalArgumentException("Required field has no value");
+        case UPPER_CASE:
+            convertedValue = convertedValue.toUpperCase();
+            break;
+            
+        case LOWER_CASE:
+            convertedValue = convertedValue.toLowerCase();
+            break;
         }
         
         return convertedValue;
@@ -131,17 +137,6 @@ public abstract class ValueCodecBase implements ValueCodec
         return padCharacter;
     }
 
-    public final boolean isRequired()
-    {
-        return required;
-    }
-
-    public final void setRequired(boolean required)
-    {
-        this.required = required;
-        
-    }
-
     private String padValue(String value, int length)
     {
         String paddedValue = null;
@@ -189,4 +184,20 @@ public abstract class ValueCodecBase implements ValueCodec
         
         return unpaddedValue;
     }
+
+    public int getCapitalization()
+    {
+        return capitalization;
+    }
+
+    public void setCapitalization(int capitalization)
+    {
+        this.capitalization = capitalization;
+    }
+
+    public boolean isEmpty(String value)
+    {
+        return TextUtils.allPadCharacters(value, padCharacter);
+    }
+
 }

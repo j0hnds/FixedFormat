@@ -39,6 +39,20 @@ public interface Field
     String getName();
     
     /**
+     * Sets the fields required state.
+     * 
+     * @param required true if field must not be blank.
+     */
+    void setRequired(boolean required);
+    
+    /**
+     * Gets the required status of the field.
+     * 
+     * @return true means field is required.
+     */
+    boolean isRequired();
+    
+    /**
      * Sets the value encoder/decoder to use.
      * 
      * @param codec the value codec.
@@ -93,6 +107,5 @@ public interface Field
      * @return the formatted value.
      */
     String formatValue(Object value);
-    
     
 }
