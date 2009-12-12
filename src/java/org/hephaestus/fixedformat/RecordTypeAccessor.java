@@ -1,4 +1,5 @@
 package org.hephaestus.fixedformat;
+
 /*
  * Copyright (c) 2009 Dave Sieh
  *
@@ -18,7 +19,6 @@ package org.hephaestus.fixedformat;
  * along with FixedFormat.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public interface RecordTypeAccessor
-{
+public interface RecordTypeAccessor {
     String getRecordTypeAsString();
 }

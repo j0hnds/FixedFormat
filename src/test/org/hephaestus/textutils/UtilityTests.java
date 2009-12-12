@@ -1,4 +1,5 @@
 package org.hephaestus.textutils;
+
 /*
  * Copyright (c) 2009 Dave Sieh
  *
@@ -21,17 +22,15 @@ package org.hephaestus.textutils;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class UtilityTests
-{
+public class UtilityTests {
 
-    public static Test suite()
-    {
+    public static Test suite() {
         TestSuite suite = new TestSuite("Test for org.opentools.textutils");
-        //$JUnit-BEGIN$
+        // $JUnit-BEGIN$
         suite.addTestSuite(TestTextUtils.class);
         suite.addTestSuite(TestNumberUtils.class);
         suite.addTestSuite(TestDateTimeUtils.class);
-        //$JUnit-END$
+        // $JUnit-END$
         return suite;
     }
 

@@ -22,8 +22,7 @@ package org.hephaestus.textutils;
  * Utility class for performing a variety of operations
  * against string data.
  * 
- * @author djs
- *
+ * @author Dave Sieh
  */
 public class TextUtils
 {

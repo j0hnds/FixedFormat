@@ -1,4 +1,5 @@
 package org.hephaestus.fixedformat.impl;
+
 /*
  * Copyright (c) 2009 Dave Sieh
  *
@@ -26,14 +27,12 @@ import org.hephaestus.fixedformat.impl.DateTimeCodec;
 
 import junit.framework.TestCase;
 
-public class TestDateTimeCodec extends TestCase
-{
+public class TestDateTimeCodec extends TestCase {
     private ValueCodec codec;
     private Date testDate;
     private String testDateFormat;
 
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         codec = new DateTimeCodec();
 
         Calendar cal = Calendar.getInstance();
@@ -44,116 +43,97 @@ public class TestDateTimeCodec extends TestCase
         cal.set(Calendar.MINUTE, 33);
         cal.set(Calendar.SECOND, 21);
         cal.set(Calendar.MILLISECOND, 1);
-        
+
         testDate = cal.getTime();
-        
+
         testDateFormat = "yyyyMMdd";
     }
 
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
-    public void testEncodeValueNull()
-    {
-        try
-        {
+
+    public void testEncodeValueNull() {
+        try {
             codec.encodeValue(null, 4);
             fail("Should have thrown exception");
         }
-        catch (IllegalArgumentException e)
-        {
-            
+        catch (IllegalArgumentException e) {
+
         }
     }
 
-    public void testEncodeValueEmptyString()
-    {
+    public void testEncodeValueEmptyString() {
         ((DateTimeCodec) codec).setFormatString(testDateFormat);
-        try
-        {
+        try {
             codec.encodeValue("", 4);
             fail("Should have thrown exception");
         }
-        catch (IllegalArgumentException e)
-        {
-            
+        catch (IllegalArgumentException e) {
+
         }
     }
-    
-    public void testDecodeValueNull()
-    {
-        try
-        {
+
+    public void testDecodeValueNull() {
+        try {
             codec.decodeValue(null);
             fail("Should have thrown exception");
         }
-        catch (Exception e)
-        {
-            
+        catch (Exception e) {
+
         }
     }
-    
-    public void testDecodeValueEmpty()
-    {
+
+    public void testDecodeValueEmpty() {
         ((DateTimeCodec) codec).setFormatString(testDateFormat);
-        
-        try
-        {
+
+        try {
             codec.decodeValue("");
             fail("Should have thrown exception");
         }
-        catch (Exception e)
-        {
-            
+        catch (Exception e) {
+
         }
     }
-    
-    public void testDecodeValueInvalid()
-    {
+
+    public void testDecodeValueInvalid() {
         ((DateTimeCodec) codec).setFormatString(testDateFormat);
-        
-        try
-        {
+
+        try {
             codec.decodeValue("abcdefghij");
             fail("Should have thrown exception");
         }
-        catch (Exception e)
-        {
-            
+        catch (Exception e) {
+
         }
     }
-    
-    public void testEncodeValueDate()
-    {
+
+    public void testEncodeValueDate() {
         ((DateTimeCodec) codec).setFormatString(testDateFormat);
         String encodedValue = codec.encodeValue(testDate, 8);
-        
+
         assertNotNull(encodedValue);
         assertEquals("20060831", encodedValue);
     }
 
-    public void testEncodeValueString()
-    {
+    public void testEncodeValueString() {
         ((DateTimeCodec) codec).setFormatString(testDateFormat);
         String encodedValue = codec.encodeValue("20060831", 8);
-        
+
         assertNotNull(encodedValue);
         assertEquals("20060831", encodedValue);
     }
 
-    public void testDecodeValue()
-    {
+    public void testDecodeValue() {
         ((DateTimeCodec) codec).setFormatString(testDateFormat);
-        
+
         Date decodedDate = (Date) codec.decodeValue("20060831");
-        
+
         assertNotNull(decodedDate);
-        
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(decodedDate);
-        
+
         assertEquals(2006, cal.get(Calendar.YEAR));
         assertEquals(Calendar.AUGUST, cal.get(Calendar.MONTH));
         assertEquals(31, cal.get(Calendar.DAY_OF_MONTH));
@@ -163,5 +143,5 @@ public class TestDateTimeCodec extends TestCase
         assertEquals(0, cal.get(Calendar.MILLISECOND));
 
     }
-    
+
 }

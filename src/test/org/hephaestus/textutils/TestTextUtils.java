@@ -1,4 +1,5 @@
 package org.hephaestus.textutils;
+
 /*
  * Copyright (c) 2009 Dave Sieh
  *
@@ -22,61 +23,49 @@ import org.hephaestus.textutils.TextUtils;
 
 import junit.framework.TestCase;
 
-public class TestTextUtils extends TestCase
-{
+public class TestTextUtils extends TestCase {
 
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
     }
 
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
-    public void testIsBlankNullString()
-    {
+
+    public void testIsBlankNullString() {
         assertTrue(TextUtils.isBlank(null));
     }
-    
-    public void testIsBlankZeroLengthString()
-    {
+
+    public void testIsBlankZeroLengthString() {
         assertTrue(TextUtils.isBlank(""));
     }
-    
-    public void testIsBlankSpaceOnlyString()
-    {
+
+    public void testIsBlankSpaceOnlyString() {
         assertTrue(TextUtils.isBlank("     "));
     }
-    
-    public void testIsBlankNonBlankString()
-    {
+
+    public void testIsBlankNonBlankString() {
         assertFalse(TextUtils.isBlank("  TestString  "));
     }
-    
-    public void testRightJustifyTextNullString()
-    {
+
+    public void testRightJustifyTextNullString() {
         assertEquals("    ", TextUtils.rightJustifyText(null, 4, ' '));
     }
-    
-    public void testRightJustifyTextEmptyString()
-    {
+
+    public void testRightJustifyTextEmptyString() {
         assertEquals("****", TextUtils.rightJustifyText("", 4, '*'));
     }
-    
-    public void testRightJustifyTextShortString()
-    {
+
+    public void testRightJustifyTextShortString() {
         assertEquals("**aa", TextUtils.rightJustifyText("aa", 4, '*'));
     }
-    
-    public void testRightJustifyTextEqualString()
-    {
+
+    public void testRightJustifyTextEqualString() {
         assertEquals("abcd", TextUtils.rightJustifyText("abcd", 4, ' '));
     }
-    
-    public void testRightJustifyTextLongString()
-    {
+
+    public void testRightJustifyTextLongString() {
         assertEquals("abcde", TextUtils.rightJustifyText("abcde", 4, ' '));
     }
 

@@ -25,8 +25,7 @@ import org.hephaestus.textutils.TextUtils;
 /**
  * Base implementation of fixed format field.
  * 
- * @author djs
- *
+ * @author Dave Sieh
  */
 public class FieldBase implements Field
 {

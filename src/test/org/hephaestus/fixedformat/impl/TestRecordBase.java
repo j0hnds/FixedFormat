@@ -1,4 +1,5 @@
 package org.hephaestus.fixedformat.impl;
+
 /*
  * Copyright (c) 2009 Dave Sieh
  *
@@ -38,75 +39,71 @@ import org.hephaestus.fixedformat.impl.USCurrencyCodec;
 
 import junit.framework.TestCase;
 
-public class TestRecordBase extends TestCase
-{
+public class TestRecordBase extends TestCase {
     private Record record;
     private ObjectPopulator beanPopulator;
     private ObjectPopulator mapPopulator;
-    
-    protected void setUp() throws Exception
-    {
+
+    protected void setUp() throws Exception {
         beanPopulator = new BeanPopulator();
         mapPopulator = new MapPopulator();
-        
+
         record = new RecordBase();
         List<Field> fieldDefinitions = new ArrayList<Field>();
-        
+
         ValueCodec stringCodec = new StringCodec();
         stringCodec.setPaddable(true);
         stringCodec.setPadCharacter(' ');
         stringCodec.setJustification(ValueCodec.LEFT_JUSTIFIED);
-        
+
         ValueCodec longCodec = new LongCodec();
         longCodec.setPaddable(true);
         longCodec.setPadCharacter('0');
         longCodec.setJustification(ValueCodec.RIGHT_JUSTIFIED);
-        
+
         ValueCodec usCurrencyCodec = new USCurrencyCodec();
         usCurrencyCodec.setPaddable(true);
         usCurrencyCodec.setPadCharacter('0');
         usCurrencyCodec.setJustification(ValueCodec.RIGHT_JUSTIFIED);
-        
+
         Field fld = new FieldBase();
         fld.setName("recordType");
         fld.setLength(1);
         fld.setDescription("Record Type Holder");
         fld.setValueCodec(stringCodec);
         fieldDefinitions.add(fld);
-        
+
         fld = new FieldBase();
         fld.setName("otherValue");
         fld.setLength(4);
         fld.setDescription("Other Value Holder");
         fld.setValueCodec(stringCodec);
         fieldDefinitions.add(fld);
-        
+
         fld = new FieldBase();
         fld.setName("longValue");
         fld.setLength(4);
         fld.setDescription("Long Value Holder");
         fld.setValueCodec(longCodec);
         fieldDefinitions.add(fld);
-        
+
         fld = new FieldBase();
         fld.setName("decimalValue");
         fld.setLength(12);
         fld.setDescription("Decimal Value Holder");
         fld.setValueCodec(usCurrencyCodec);
         fieldDefinitions.add(fld);
-        
+
         record.setFieldDefinitions(fieldDefinitions);
     }
 
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
-    public void testScanRecordIntoMap()
-    {
+
+    public void testScanRecordIntoMap() {
         record.setPopulator(mapPopulator);
-        Map<String,Record> mappedRecord = new HashMap<String,Record>();
+        Map<String, Record> mappedRecord = new HashMap<String, Record>();
         record.scanRecord("1cd  0033000000000389", mappedRecord);
         assertNotNull(mappedRecord);
         assertEquals(4, mappedRecord.size());
@@ -120,81 +117,76 @@ public class TestRecordBase extends TestCase
         BigDecimal decimalValue = (BigDecimal) mappedRecord.get("decimalValue");
         assertEquals(389, decimalValue.longValue());
     }
-    
-    public void testScanRecordBean()
-    {
+
+    public void testScanRecordBean() {
         record.setPopulator(beanPopulator);
         BeanToTest beanToTest = new BeanToTest();
         record.scanRecord("1cd  0033000000000389", beanToTest);
-        
+
         assertEquals("1", beanToTest.getRecordType());
         assertEquals("cd", beanToTest.getOtherValue());
         assertEquals(new Long(33), beanToTest.getLongValue());
         BigDecimal num = beanToTest.getDecimalValue();
         assertEquals(389, num.longValue());
     }
-    
-    public void testFormatBean()
-    {
+
+    public void testFormatBean() {
         record.setPopulator(beanPopulator);
         BeanToTest beanToTest = new BeanToTest();
         beanToTest.setRecordType("3");
         beanToTest.setOtherValue("de");
         beanToTest.setLongValue(new Long(9988));
         beanToTest.setDecimalValue(new BigDecimal("148.9"));
-        
+
         assertEquals("3de  9988000000014890", record.formatRecord(beanToTest));
     }
-    
-    public void testFormatMap()
-    {
+
+    public void testFormatMap() {
         record.setPopulator(mapPopulator);
-        Map<String,Object> mapToTest = new HashMap<String,Object>();
+        Map<String, Object> mapToTest = new HashMap<String, Object>();
         mapToTest.put("recordType", "6");
         mapToTest.put("otherValue", "c");
         mapToTest.put("longValue", new Long(9988));
         mapToTest.put("decimalValue", new BigDecimal("148.9"));
-        
+
         assertEquals("6c   9988000000014890", record.formatRecord(mapToTest));
     }
 
-    public static class BeanToTest
-    {
+    public static class BeanToTest {
         private String recordType;
         private String otherValue;
         private Long longValue;
         private BigDecimal decimalValue;
 
-        public String getOtherValue()
-        {
+        public String getOtherValue() {
             return otherValue;
         }
-        public void setOtherValue(String otherValue)
-        {
+
+        public void setOtherValue(String otherValue) {
             this.otherValue = otherValue;
         }
-        public String getRecordType()
-        {
+
+        public String getRecordType() {
             return recordType;
         }
-        public void setRecordType(String recordType)
-        {
+
+        public void setRecordType(String recordType) {
             this.recordType = recordType;
         }
-        public BigDecimal getDecimalValue()
-        {
+
+        public BigDecimal getDecimalValue() {
             return decimalValue;
         }
-        public void setDecimalValue(BigDecimal decimalValue)
-        {
+
+        public void setDecimalValue(BigDecimal decimalValue) {
             this.decimalValue = decimalValue;
         }
-        public Long getLongValue()
-        {
+
+        public Long getLongValue() {
             return longValue;
         }
-        public void setLongValue(Long longValue)
-        {
+
+        public void setLongValue(Long longValue) {
             this.longValue = longValue;
         }
 

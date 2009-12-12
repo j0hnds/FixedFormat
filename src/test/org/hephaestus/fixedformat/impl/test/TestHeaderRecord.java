@@ -1,4 +1,5 @@
 package org.hephaestus.fixedformat.impl.test;
+
 /*
  * Copyright (c) 2009 Dave Sieh
  *
@@ -18,18 +19,15 @@ package org.hephaestus.fixedformat.impl.test;
  * along with FixedFormat.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class TestHeaderRecord extends TestRecordBase
-{
+public class TestHeaderRecord extends TestRecordBase {
     private String description;
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description)
-    {
+    public void setDescription(String description) {
         this.description = description;
     }
-       
+
 }

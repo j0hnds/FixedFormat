@@ -1,4 +1,5 @@
 package org.hephaestus.fixedformat.impl;
+
 /*
  * Copyright (c) 2009 Dave Sieh
  *
@@ -21,14 +22,12 @@ package org.hephaestus.fixedformat.impl;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class ImplTests
-{
+public class ImplTests {
 
-    public static Test suite()
-    {
+    public static Test suite() {
         TestSuite suite = new TestSuite(
                 "Test for org.opentools.fixedformat.impl");
-        //$JUnit-BEGIN$
+        // $JUnit-BEGIN$
         suite.addTestSuite(TestRecordFactoryBase.class);
         suite.addTestSuite(TestRecordBase.class);
         suite.addTestSuite(TestLongCodec.class);
@@ -38,7 +37,7 @@ public class ImplTests
         suite.addTestSuite(TestFieldBase.class);
         suite.addTestSuite(TestMapPopulator.class);
         suite.addTestSuite(TestDateTimeCodec.class);
-        //$JUnit-END$
+        // $JUnit-END$
         return suite;
     }
 

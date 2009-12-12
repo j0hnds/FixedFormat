@@ -21,8 +21,7 @@ package org.hephaestus.fixedformat;
 /**
  * Defines the interface for a value encoder/decoder.
  * 
- * @author djs
- *
+ * @author Dave Sieh
  */
 public interface ValueCodec
 {

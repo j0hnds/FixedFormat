@@ -1,4 +1,5 @@
 package org.hephaestus.fixedformat.impl;
+
 /*
  * Copyright (c) 2009 Dave Sieh
  *
@@ -25,119 +26,94 @@ import org.hephaestus.fixedformat.impl.USCurrencyCodec;
 
 import junit.framework.TestCase;
 
-public class TestUSCurrencyCodec extends TestCase
-{
+public class TestUSCurrencyCodec extends TestCase {
     private ValueCodec codec;
-    
-    protected void setUp() throws Exception
-    {
+
+    protected void setUp() throws Exception {
         codec = new USCurrencyCodec();
     }
 
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
-    public void testEncodeValueNull()
-    {
-        try
-        {
+
+    public void testEncodeValueNull() {
+        try {
             codec.encodeValue(null, 0);
             fail("Should have thrown exception");
         }
-        catch (IllegalArgumentException e)
-        {
-            
+        catch (IllegalArgumentException e) {
+
         }
     }
 
-    public void testEncodeValueWrongType()
-    {
-        try
-        {
+    public void testEncodeValueWrongType() {
+        try {
             codec.encodeValue("", 0);
             fail("Should have thrown exception");
         }
-        catch (IllegalArgumentException e)
-        {
-            
+        catch (IllegalArgumentException e) {
+
         }
     }
-    
-    public void testEncodeValueTooLong()
-    {
-        try
-        {
+
+    public void testEncodeValueTooLong() {
+        try {
             codec.encodeValue(new BigDecimal("23.1"), 0);
             fail("Should have thrown exception");
         }
-        catch (IllegalArgumentException e)
-        {
-            
+        catch (IllegalArgumentException e) {
+
         }
     }
-    
-    public void testEncodeValueShort()
-    {
+
+    public void testEncodeValueShort() {
         codec.setPaddable(true);
         codec.setPadCharacter('0');
         codec.setJustification(ValueCodec.RIGHT_JUSTIFIED);
         assertEquals("002310", codec.encodeValue(new BigDecimal("23.1"), 6));
     }
-    
-    public void testEncodeValueEqual()
-    {
+
+    public void testEncodeValueEqual() {
         assertEquals("232", codec.encodeValue(new BigDecimal("2.32"), 3));
     }
-    
-    public void testDecodeValueNull()
-    {
-        try
-        {
+
+    public void testDecodeValueNull() {
+        try {
             codec.decodeValue(null);
             fail("Should have thrown exception");
         }
-        catch (IllegalArgumentException e)
-        {
-            
+        catch (IllegalArgumentException e) {
+
         }
     }
 
-    public void testDecodeValueEmpty()
-    {
-        try
-        {
+    public void testDecodeValueEmpty() {
+        try {
             codec.decodeValue("");
             fail("Should have thrown exception");
         }
-        catch (NumberFormatException e)
-        {
-            
+        catch (NumberFormatException e) {
+
         }
     }
-    
-    public void testDecodeValueInvalid()
-    {
-        try
-        {
+
+    public void testDecodeValueInvalid() {
+        try {
             codec.decodeValue("ab23d");
             fail("Should have thrown exception");
         }
-        catch (NumberFormatException e)
-        {
-            
+        catch (NumberFormatException e) {
+
         }
     }
-    
-    public void testDecodeValueNoPadding()
-    {
+
+    public void testDecodeValueNoPadding() {
         BigDecimal num = (BigDecimal) codec.decodeValue("232");
         assertEquals(232L, num.longValue());
     }
 
-    public void testDecodeValueZeroPadding()
-    {
+    public void testDecodeValueZeroPadding() {
         BigDecimal num = (BigDecimal) codec.decodeValue("000232");
         assertEquals(232L, num.longValue());
     }

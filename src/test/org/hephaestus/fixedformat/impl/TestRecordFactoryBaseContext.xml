@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<!-- 
- * Copyright (c) 2009 Dave Sieh
- *
- * This file is part of FixedFormat.
- *
- * FixedFormat is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * FixedFormat is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with FixedFormat.  If not, see <http://www.gnu.org/licenses/>.
--->
-<!--
+	<!--
+		* Copyright (c) 2009 Dave Sieh * * This file is part of FixedFormat. *
+		* FixedFormat is free software: you can redistribute it and/or modify
+		* it under the terms of the GNU General Public License as published by
+		* the Free Software Foundation, either version 3 of the License, or *
+		(at your option) any later version. * * FixedFormat is distributed in
+		the hope that it will be useful, * but WITHOUT ANY WARRANTY; without
+		even the implied warranty of * MERCHANTABILITY or FITNESS FOR A
+		PARTICULAR PURPOSE. See the * GNU General Public License for more
+		details. * * You should have received a copy of the GNU General Public
+		License * along with FixedFormat. If not, see
+		<http://www.gnu.org/licenses/>.
+	-->
+	<!--
 	Application context for TestRecordFactoryBase
 -->
 <beans>
@@ -41,10 +36,10 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<!-- The record identifier to use -->
 	<bean id="RecordIdentifier" class="org.hephaestus.ach.ACHRecordIdentifier" />
-	
+
 	<!-- The record format definitions -->
 	<bean id="HeaderFormatter" class="org.hephaestus.fixedformat.impl.RecordBase">
 		<property name="populator" ref="BeanPopulator" />
@@ -67,10 +62,10 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- The populators the record formatters will use -->
 	<bean id="BeanPopulator" class="org.hephaestus.fixedformat.impl.BeanPopulator" />
-	
+
 	<!-- The field definitions we will be using -->
 	<bean id="RecordId" class="org.hephaestus.fixedformat.impl.FieldBase">
 		<property name="description" value="The identifier of the record" />
@@ -108,7 +103,7 @@
 		<property name="name" value="time" />
 		<property name="valueCodec" ref="TimeCodec" />
 	</bean>
-	
+
 	<!-- Create the codecs we will be using for the records -->
 	<bean id="LongCodec" class="org.hephaestus.fixedformat.impl.LongCodec">
 		<property name="justification" value="2" />
@@ -142,9 +137,13 @@
 		<property name="truncatable" value="false" />
 		<property name="formatString" value="HHmm" />
 	</bean>
-	
-	<!-- The data records to use for the content of the records (non-singleton) -->
-	<bean id="HeaderRecord" class="org.hephaestus.fixedformat.impl.test.TestHeaderRecord" singleton="false" />
-	<bean id="DetailRecord" class="org.hephaestus.fixedformat.impl.test.TestDetailRecord" singleton="false" />
-		
+
+	<!--
+		The data records to use for the content of the records (non-singleton)
+	-->
+	<bean id="HeaderRecord" class="org.hephaestus.fixedformat.impl.test.TestHeaderRecord"
+		singleton="false" />
+	<bean id="DetailRecord" class="org.hephaestus.fixedformat.impl.test.TestDetailRecord"
+		singleton="false" />
+
 </beans>

@@ -1,4 +1,5 @@
 package org.hephaestus.fixedformat.impl;
+
 /*
  * Copyright (c) 2009 Dave Sieh
  *
@@ -27,74 +28,65 @@ import org.hephaestus.fixedformat.Record;
 /**
  * Base implementation of fixed format record.
  * 
- * @author djs
- *
+ * @author Dave Sieh
  */
-public class RecordBase implements Record
-{
+public class RecordBase implements Record {
     private List<Field> fieldDefinitions;
     private ObjectPopulator populator;
-    
-    public final void scanRecord(String record, Object valueObject)
-    {
+
+    public final void scanRecord(String record, Object valueObject) {
         populateObject(record, valueObject, populator);
     }
 
-    public final String formatRecord(Object record)
-    {
+    public final String formatRecord(Object record) {
         String formattedRecord = null;
-        
-        if (record == null)
-        {
-            throw new IllegalArgumentException("Must specify non-null record to format");
+
+        if (record == null) {
+            throw new IllegalArgumentException(
+                    "Must specify non-null record to format");
         }
-        
+
         formattedRecord = formatObject(record, populator);
-        
+
         return formattedRecord;
     }
 
-    public final List<Field> getFieldDefinitions()
-    {
+    public final List<Field> getFieldDefinitions() {
         return fieldDefinitions;
     }
 
-    public final void setFieldDefinitions(List<Field> fieldDefinitions)
-    {
+    public final void setFieldDefinitions(List<Field> fieldDefinitions) {
         this.fieldDefinitions = fieldDefinitions;
     }
 
-    public final ObjectPopulator getPopulator()
-    {
+    public final ObjectPopulator getPopulator() {
         return populator;
     }
 
-    public final void setPopulator(ObjectPopulator beanPopulator)
-    {
+    public final void setPopulator(ObjectPopulator beanPopulator) {
         this.populator = beanPopulator;
     }
 
-    private final String formatObject(Object objectToFormat, ObjectPopulator populator)
-    {
+    private final String formatObject(Object objectToFormat,
+            ObjectPopulator populator) {
         StringBuffer sb = new StringBuffer();
-        
-        if (fieldDefinitions == null)
-        {
-            throw new IllegalStateException("No field definitions configured for record");
-        }
-        
-        if (objectToFormat == null)
-        {
-            throw new IllegalArgumentException("Must specify non-null object to format");
-        }
-        
-        if (populator == null)
-        {
-            throw new IllegalArgumentException("Must specify non-null populator");
+
+        if (fieldDefinitions == null) {
+            throw new IllegalStateException(
+                    "No field definitions configured for record");
         }
 
-        for (Field field : fieldDefinitions)
-        {
+        if (objectToFormat == null) {
+            throw new IllegalArgumentException(
+                    "Must specify non-null object to format");
+        }
+
+        if (populator == null) {
+            throw new IllegalArgumentException(
+                    "Must specify non-null populator");
+        }
+
+        for (Field field : fieldDefinitions) {
             Object value = populator.getValue(objectToFormat, field.getName());
 
             sb.append(field.formatValue(value));
@@ -103,32 +95,31 @@ public class RecordBase implements Record
         return sb.toString();
     }
 
-    private void populateObject(String record, Object objectToPopulate, ObjectPopulator populator)
-    {
-        if (fieldDefinitions == null)
-        {
-            throw new IllegalStateException("No field definitions configured for record");
+    private void populateObject(String record, Object objectToPopulate,
+            ObjectPopulator populator) {
+        if (fieldDefinitions == null) {
+            throw new IllegalStateException(
+                    "No field definitions configured for record");
         }
-        
-        if (objectToPopulate == null)
-        {
-            throw new IllegalArgumentException("Must specify non-null object to populate");
+
+        if (objectToPopulate == null) {
+            throw new IllegalArgumentException(
+                    "Must specify non-null object to populate");
         }
-        
-        if (populator == null)
-        {
-            throw new IllegalArgumentException("Must specify non-null populator");
+
+        if (populator == null) {
+            throw new IllegalArgumentException(
+                    "Must specify non-null populator");
         }
-        
+
         int position = 0;
-        for (Field field : fieldDefinitions)
-        {
+        for (Field field : fieldDefinitions) {
             Object value = field.extractTypedValue(record, position);
-            
+
             populator.populateValue(objectToPopulate, field.getName(), value);
-            
+
             position += field.getLength();
         }
     }
-    
+
 }

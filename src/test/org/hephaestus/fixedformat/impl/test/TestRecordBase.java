@@ -1,4 +1,5 @@
 package org.hephaestus.fixedformat.impl.test;
+
 /*
  * Copyright (c) 2009 Dave Sieh
  *
@@ -20,24 +21,19 @@ package org.hephaestus.fixedformat.impl.test;
 
 import org.hephaestus.fixedformat.RecordTypeAccessor;
 
-public class TestRecordBase implements RecordTypeAccessor
-{
+public class TestRecordBase implements RecordTypeAccessor {
     private long recordType;
 
-    public long getRecordType()
-    {
+    public long getRecordType() {
         return recordType;
     }
 
-    public void setRecordType(long recordType)
-    {
+    public void setRecordType(long recordType) {
         this.recordType = recordType;
     }
 
-    public String getRecordTypeAsString()
-    {
+    public String getRecordTypeAsString() {
         return Long.toString(recordType);
     }
 
-    
 }

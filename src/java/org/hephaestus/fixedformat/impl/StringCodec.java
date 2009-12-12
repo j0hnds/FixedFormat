@@ -1,4 +1,5 @@
 package org.hephaestus.fixedformat.impl;
+
 /*
  * Copyright (c) 2009 Dave Sieh
  *
@@ -18,11 +19,9 @@ package org.hephaestus.fixedformat.impl;
  * along with FixedFormat.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public final class StringCodec extends ValueCodecBase
-{
+public final class StringCodec extends ValueCodecBase {
 
-    protected Object stringToObject(String value)
-    {
+    protected Object stringToObject(String value) {
         return value;
     }
 
