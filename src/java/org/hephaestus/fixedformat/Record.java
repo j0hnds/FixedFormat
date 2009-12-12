@@ -31,14 +31,14 @@ public interface Record
      * 
      * @param fieldList the list of field definitions to set.
      */
-    void setFieldDefinitions(List fieldList);
+    void setFieldDefinitions(List<Field> fieldList);
     
     /**
      * Returns the list of field definitions for the record.
      * 
      * @return the list of field definitions.
      */
-    List getFieldDefinitions();
+    List<Field> getFieldDefinitions();
     
     void setPopulator(ObjectPopulator populator);
     

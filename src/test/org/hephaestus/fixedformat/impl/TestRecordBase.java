@@ -32,7 +32,7 @@ public class TestRecordBase extends TestCase
         mapPopulator = new MapPopulator();
         
         record = new RecordBase();
-        List fieldDefinitions = new ArrayList();
+        List<Field> fieldDefinitions = new ArrayList<Field>();
         
         ValueCodec stringCodec = new StringCodec();
         stringCodec.setPaddable(true);
@@ -88,7 +88,7 @@ public class TestRecordBase extends TestCase
     public void testScanRecordIntoMap()
     {
         record.setPopulator(mapPopulator);
-        Map mappedRecord = new HashMap();
+        Map<String,Record> mappedRecord = new HashMap<String,Record>();
         record.scanRecord("1cd  0033000000000389", mappedRecord);
         assertNotNull(mappedRecord);
         assertEquals(4, mappedRecord.size());
@@ -131,7 +131,7 @@ public class TestRecordBase extends TestCase
     public void testFormatMap()
     {
         record.setPopulator(mapPopulator);
-        Map mapToTest = new HashMap();
+        Map<String,Object> mapToTest = new HashMap<String,Object>();
         mapToTest.put("recordType", "6");
         mapToTest.put("otherValue", "c");
         mapToTest.put("longValue", new Long(9988));

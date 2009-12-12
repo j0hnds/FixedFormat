@@ -8,7 +8,8 @@ import org.hephaestus.textutils.TextUtils;
 public class MapPopulator implements ObjectPopulator
 {
 
-    public final void populateValue(Object objectToPopulate, String propertyName,
+    @SuppressWarnings("unchecked")
+	public final void populateValue(Object objectToPopulate, String propertyName,
             Object value)
     {
         if (objectToPopulate == null)
@@ -16,7 +17,7 @@ public class MapPopulator implements ObjectPopulator
             throw new IllegalArgumentException("Object to populate must be non-null");
         }
         
-        if (! (objectToPopulate instanceof Map))
+        if (! (objectToPopulate instanceof Map<?,?>))
         {
             throw new IllegalArgumentException("Object to populate must be a map");
         }
@@ -26,19 +27,20 @@ public class MapPopulator implements ObjectPopulator
             throw new IllegalArgumentException("Property name must be non-null and not empty");
         }
         
-        Map mapObject = (Map) objectToPopulate;
+        Map<String,Object> mapObject = (Map<String,Object>) objectToPopulate;
         
         mapObject.put(propertyName, value);
     }
 
-    public final Object getValue(Object objectToAccess, String propertyName)
+    @SuppressWarnings("unchecked")
+	public final Object getValue(Object objectToAccess, String propertyName)
     {
         if (objectToAccess == null)
         {
             throw new IllegalArgumentException("Object to populate must be non-null");
         }
         
-        if (! (objectToAccess instanceof Map))
+        if (! (objectToAccess instanceof Map<?,?>))
         {
             throw new IllegalArgumentException("Object to populate must be a map");
         }
@@ -48,7 +50,7 @@ public class MapPopulator implements ObjectPopulator
             throw new IllegalArgumentException("Property name must be non-null and not empty");
         }
         
-        Map mapObject = (Map) objectToAccess;
+        Map<String,Object> mapObject = (Map<String,Object>) objectToAccess;
         
         return mapObject.get(propertyName);
     }

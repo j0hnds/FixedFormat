@@ -10,8 +10,8 @@ import org.hephaestus.fixedformat.RecordTypeAccessor;
 public class RecordFactoryBase implements RecordFactory
 {
     private RecordIdentifier recordIdentifier;
-    private Map recordFormats;
-    private Map recordDataMap;
+    private Map<String,Record> recordFormats;
+    private Map<String,Object> recordDataMap;
     
     public void setRecordIdentifier(RecordIdentifier identifier)
     {
@@ -91,22 +91,22 @@ public class RecordFactoryBase implements RecordFactory
         return recordFormat.formatRecord(valueObject);
     }
 
-    public Map getRecordDataMap()
+    public Map<String,Object> getRecordDataMap()
     {
         return recordDataMap;
     }
 
-    public void setRecordDataMap(Map recordDataMap)
+    public void setRecordDataMap(Map<String,Object> recordDataMap)
     {
         this.recordDataMap = recordDataMap;
     }
 
-    public Map getRecordFormats()
+    public Map<String,Record> getRecordFormats()
     {
         return recordFormats;
     }
 
-    public void setRecordFormats(Map recordFormatMap)
+    public void setRecordFormats(Map<String,Record> recordFormatMap)
     {
         this.recordFormats = recordFormatMap;
     }

@@ -11,12 +11,12 @@ import junit.framework.TestCase;
 public class TestMapPopulator extends TestCase
 {
     private ObjectPopulator populator;
-    private Map testMap;
+    private Map<String,Object> testMap;
     
     protected void setUp() throws Exception
     {
         populator = new MapPopulator();
-        testMap = new HashMap();
+        testMap = new HashMap<String,Object>();
     }
 
     protected void tearDown() throws Exception

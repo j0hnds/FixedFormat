@@ -1,6 +1,5 @@
 package org.hephaestus.fixedformat.impl;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.hephaestus.fixedformat.Field;
@@ -15,7 +14,7 @@ import org.hephaestus.fixedformat.Record;
  */
 public class RecordBase implements Record
 {
-    private List fieldDefinitions;
+    private List<Field> fieldDefinitions;
     private ObjectPopulator populator;
     
     public final void scanRecord(String record, Object valueObject)
@@ -37,12 +36,12 @@ public class RecordBase implements Record
         return formattedRecord;
     }
 
-    public final List getFieldDefinitions()
+    public final List<Field> getFieldDefinitions()
     {
         return fieldDefinitions;
     }
 
-    public final void setFieldDefinitions(List fieldDefinitions)
+    public final void setFieldDefinitions(List<Field> fieldDefinitions)
     {
         this.fieldDefinitions = fieldDefinitions;
     }
@@ -76,11 +75,8 @@ public class RecordBase implements Record
             throw new IllegalArgumentException("Must specify non-null populator");
         }
 
-        Iterator it = fieldDefinitions.iterator();
-        while (it.hasNext())
+        for (Field field : fieldDefinitions)
         {
-            Field field = (Field) it.next();
-            
             Object value = populator.getValue(objectToFormat, field.getName());
 
             sb.append(field.formatValue(value));
@@ -107,11 +103,8 @@ public class RecordBase implements Record
         }
         
         int position = 0;
-        Iterator it = fieldDefinitions.iterator();
-        while (it.hasNext())
+        for (Field field : fieldDefinitions)
         {
-            Field field = (Field) it.next();
-            
             Object value = field.extractTypedValue(record, position);
             
             populator.populateValue(objectToPopulate, field.getName(), value);
