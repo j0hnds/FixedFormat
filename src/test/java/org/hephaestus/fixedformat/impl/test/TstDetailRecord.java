@@ -19,21 +19,45 @@ package org.hephaestus.fixedformat.impl.test;
  * along with FixedFormat.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.hephaestus.fixedformat.RecordTypeAccessor;
+import java.math.BigDecimal;
+import java.util.Date;
 
-public class TestRecordBase implements RecordTypeAccessor {
-    private long recordType;
+public class TstDetailRecord extends TstRecordBase {
+    private String description;
+    private BigDecimal amount;
+    private Date date;
+    private Date time;
 
-    public long getRecordType() {
-        return recordType;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setRecordType(long recordType) {
-        this.recordType = recordType;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
-    public String getRecordTypeAsString() {
-        return Long.toString(recordType);
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
 }

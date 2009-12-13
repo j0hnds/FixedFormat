@@ -141,9 +141,9 @@
 	<!--
 		The data records to use for the content of the records (non-singleton)
 	-->
-	<bean id="HeaderRecord" class="org.hephaestus.fixedformat.impl.test.TestHeaderRecord"
+	<bean id="HeaderRecord" class="org.hephaestus.fixedformat.impl.test.TstHeaderRecord"
 		singleton="false" />
-	<bean id="DetailRecord" class="org.hephaestus.fixedformat.impl.test.TestDetailRecord"
+	<bean id="DetailRecord" class="org.hephaestus.fixedformat.impl.test.TstDetailRecord"
 		singleton="false" />
 
 </beans>

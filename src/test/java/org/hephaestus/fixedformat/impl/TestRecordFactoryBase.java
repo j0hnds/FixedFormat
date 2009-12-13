@@ -24,8 +24,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.hephaestus.fixedformat.RecordFactory;
-import org.hephaestus.fixedformat.impl.test.TestDetailRecord;
-import org.hephaestus.fixedformat.impl.test.TestHeaderRecord;
+import org.hephaestus.fixedformat.impl.test.TstDetailRecord;
+import org.hephaestus.fixedformat.impl.test.TstHeaderRecord;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -41,7 +41,7 @@ public class TestRecordFactoryBase extends TestCase {
     protected void setUp() throws Exception {
         // Load the application context
         BeanFactory bf = new XmlBeanFactory(new ClassPathResource(
-                "TestRecordFactoryBaseContext.xml", getClass()));
+                "/TestRecordFactoryBaseContext.xml", getClass()));
 
         recordFactory = (RecordFactory) bf.getBean("TestFactory");
     }
@@ -53,9 +53,9 @@ public class TestRecordFactoryBase extends TestCase {
     public void testHeader1Scan() {
         Object vo = recordFactory.createRecord(HEADER_RECORD_1);
         assertNotNull(vo);
-        assertTrue(vo instanceof TestHeaderRecord);
+        assertTrue(vo instanceof TstHeaderRecord);
 
-        TestHeaderRecord thr = (TestHeaderRecord) vo;
+        TstHeaderRecord thr = (TstHeaderRecord) vo;
         assertEquals(1L, thr.getRecordType());
         assertEquals("HeaderDescription", thr.getDescription());
     }
@@ -63,9 +63,9 @@ public class TestRecordFactoryBase extends TestCase {
     public void testDetail1Scan() {
         Object vo = recordFactory.createRecord(DETAIL_RECORD_1);
         assertNotNull(vo);
-        assertTrue(vo instanceof TestDetailRecord);
+        assertTrue(vo instanceof TstDetailRecord);
 
-        TestDetailRecord tdr = (TestDetailRecord) vo;
+        TstDetailRecord tdr = (TstDetailRecord) vo;
         assertEquals(2L, tdr.getRecordType());
         assertEquals("Item 1", tdr.getDescription());
         assertEquals(303L, tdr.getAmount().longValue());
@@ -84,7 +84,7 @@ public class TestRecordFactoryBase extends TestCase {
     }
 
     public void testHeader1Format() {
-        TestHeaderRecord thr = new TestHeaderRecord();
+        TstHeaderRecord thr = new TstHeaderRecord();
         thr.setRecordType(1L);
         thr.setDescription("HeaderDescription");
 
@@ -92,7 +92,7 @@ public class TestRecordFactoryBase extends TestCase {
     }
 
     public void testDetail1Format() {
-        TestDetailRecord tdr = new TestDetailRecord();
+        TstDetailRecord tdr = new TstDetailRecord();
         tdr.setRecordType(2L);
         tdr.setDescription("Item 1");
         tdr.setAmount(new BigDecimal("3.03").setScale(2,

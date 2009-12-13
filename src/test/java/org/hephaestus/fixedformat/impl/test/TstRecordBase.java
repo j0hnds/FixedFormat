@@ -19,15 +19,21 @@ package org.hephaestus.fixedformat.impl.test;
  * along with FixedFormat.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class TestHeaderRecord extends TestRecordBase {
-    private String description;
+import org.hephaestus.fixedformat.RecordTypeAccessor;
 
-    public String getDescription() {
-        return description;
+public class TstRecordBase implements RecordTypeAccessor {
+    private long recordType;
+
+    public long getRecordType() {
+        return recordType;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setRecordType(long recordType) {
+        this.recordType = recordType;
+    }
+
+    public String getRecordTypeAsString() {
+        return Long.toString(recordType);
     }
 
 }
